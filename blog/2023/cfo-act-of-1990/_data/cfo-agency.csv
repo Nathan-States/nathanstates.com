@@ -1,0 +1,25 @@
+image_path,Department,abv,1996,1997,1998,1999,2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021
+"""cfo-act-1990-explained/assets/usda.png""",Department of Agriculture,USDA,D,D,D,D,D,Q,U,U,U,U,U,Q,U,U,U,U,U,U,U,D,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/doc.png""",Department of Commerce,DOC,D,D,D,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/dod.png""",Department of Defense,DOD,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D,D
+"""cfo-act-1990-explained/assets/ed.png""",Department of Education,ED,D,U,D,D,D,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/doe.png""",Department of Energy,DOE,U,U,Q,U,U,U,U,U,U,D,D,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/hhs.png""",Department of Health and Human Services,HHS,D,Q,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/dhs.png""",Department of Homeland Security,DHS,NA,NA,NA,NA,NA,NA,NA,D,D,D,D,D,D,D,D,D,D,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/hud.png""",Department of Housing & Urban Development,HUD,Q,Q,U,D,U,U,U,D,D,U,U,U,U,U,U,U,U,Q,D,D,D,D,D,Q,U,U
+"""cfo-act-1990-explained/assets/doi.png""",Department of the Interior,DOI,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/doj.png""",Department of Justice,DOJ,D,D,D,Q,Q,U,U,U,D,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/dol.png""",Department of Labor,DOL,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,D,U,U,U,U,U,U,U,U,U,U,Q
+"""cfo-act-1990-explained/assets/dos.png""",Department of State,DOS,Q,U,U,U,U,U,U,U,U,Q,U,D,D,D,U,Q,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/dot.png""",Department of Transportation,DOT,D,D,D,U,Q,U,U,U,U,U,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/usdt.png""",Department of the Treasury,USDT,D,Q,Q,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/va.png""",Department of Veteran Affairs,VA,Q,Q,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/usaid.png""",Agency for International Development,USAID,D,D,D,D,D,Q,Q,U,U,U,U,U,U,U,U,U,Q,U,D,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/epa.png""",Environmental Protection Agency,EPA,Q,U,U,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/gsa.png""",General Services Administration,GSA,U,U,U,U,U,U,U,U,U,D,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/nasa.png""",National Aeronautics & Space Administration,NASA,U,U,U,U,U,D,U,D,D,D,D,D,D,D,Q,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/nsf.png""",National Science Foundation,NSF,Q,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/nrc.png""",Nuclear Regulatory Commission,NRC,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/opm.png""",Office of Personal Management,OPM,D,D,D,D,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U
+"""cfo-act-1990-explained/assets/sba.png""",Small Business Administration ,SBA,U,U,U,U,U,U,D,Q,Q,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,D,D
+"""cfo-act-1990-explained/assets/ssa.png""",Social Security Administration ,SSA,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U,U

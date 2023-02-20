@@ -1,0 +1,14 @@
+{
+  "hash": "0a4387e5c932a2bf64512a33bbbfe37a",
+  "result": {
+    "markdown": "---\ninclude-in-header: \"_includes/font-awesome.html\"\nknitr:\n  opts_chunk: \n    collapse: true\nexecute: \n  echo: false\n---\n\n\n# Reach out to me!\n\nComments are enabled in the [archives](archives.qmd), but disabled everywhere else. If you'd like to drop a comment about something in particular, or reach out to me for professional inquiries, message me on one of the following platforms.\n\n\n::: {.cell}\n\n:::\n\n\n`<a href=\"https://twitter.com/nathanstates_\" class=\"icon-link\" target=\"_blank\" rel=\"noopener\"><i class=\"fab fa-twitter\"></i> Twitter</a>`{=html} \n`<a href=\"https://mastodon.org/@nathanstates_\" class=\"icon-link\" target=\"_blank\" rel=\"noopener\"><i class=\"fab fa-mastodon\"></i> Mastodon</a>`{=html} \n`<a href=\"https://github.com/Nathan-States\" class=\"icon-link\" target=\"_blank\" rel=\"noopener\"><i class=\"fab fa-github\"></i> GitHub</a>`{=html}\n\nOr you can send me an email at [nathanstates\\@outlook.com](mailto:nathanstates@outlook.com).\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

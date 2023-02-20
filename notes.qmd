@@ -1,0 +1,17 @@
+---
+listing:
+  contents: notes
+  type: table
+page-layout: full
+title-block-banner: true
+---
+
+<center>
+# [Notes]{.dark-primary}
+</center>
+
+<center>
+I'm currently in the process of moving my notes for various data tools from *Notion* into my blog. This page is entirely for personal use, but maybe someone can get some useful info out of it. 
+</center>
+
+<br>

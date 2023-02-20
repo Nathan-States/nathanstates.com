@@ -1,0 +1,14 @@
+{
+  "hash": "5eefa426ba6de70ea67ec5f74801548f",
+  "result": {
+    "markdown": "---\nlisting:\n  contents: projects\n  sort: \"date desc\"\n  type: grid\n  categories: false\n  sort-ui: false \n  filter-ui: false\npage-layout: full\ntitle-block-banner: false\nknitr:\n  opts_chunk: \n    collapse: true\nexecute: \n  echo: false\n---\n\n\n<center>\n# [Projects]{.dark-primary}\n\nA list of all of the datasets, dashboards, and other web applications I've created. \n\n</center>\n<br>\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

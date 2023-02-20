@@ -1,0 +1,240 @@
+---
+title: "echarts4r Cookbook"
+description: "Notes on Apache ECharts for R"
+author: "Nathan States"
+date: "01/10/2023"
+format:
+  html:
+    toc: true
+    toc-location: right
+---
+
+# 0. Intro Thoughts 
+
+There's a ton of different charting libraries in `R`, with a few of them being interactive. `plotly` is one of the most popular, having over 2.3k stars on GitHub. `highcharter` is another such package. With `ggiraph`, it's possible to turn `ggplot2` objects into interactive charts, so there's quite a selection of tools to choose from. 
+
+Personally, I find `echarts4r` to be the best out of all of them **specifically** for exploratory data analysis. The charts are easy to create, they look nice out of the box, and it's quick and easy to gain insight into your data. The interactive element makes identifying outliers or other specific values very easy. Compared to other packages, `plotly` is way too ugly, `highcharter` requires a license for paid applications, and `ggiraph` is too time consuming for regular charts. `echarts4r` offers a nice solution to all these problems (though if you need a deeper statistical breakdown, I'd recommend `ggstatsplot`).
+
+There is a noticeable limit on customization, though. I'd still recommend `ggplot2` for high quality static charts, and D3 for more advanced interactive ones. 
+
+`echarts4r` is a wrapper for the JS library developed by Apache Software Foundation, meaning changes in the original code will cause changes in this package, regardless of if `echarts4r` itself is updated. Apache ECharts is listed as one of Apache's top projects, so hopefully, we see even more improvements in the future. 
+
+![](thumbnail.png)
+
+# 1. Installation 
+
+## 1.A. Stable Install 
+
+[Github Page](https://www.google.com/search?client=firefox-b-1-d&q=echarts4r+github+).
+
+```{r}
+#| eval: false
+install.packages("echarts4r")
+```
+
+## 1.B. Developmental Build 
+
+Requites the `remotes` package to install. 
+
+```{r}
+#| eval: false
+install.packages("remotes")
+remotes::install_github("JohnCoene/echarts4r")
+```
+
+## 1.C. Complimentary Packages 
+
+Neither of these packages have been updated in years, but are still usable in their current formats. They allow for maps and image assets to be used while charting. 
+
+```{r}
+#| eval: false
+remotes::install_github('JohnCoene/echarts4r.assets')
+remotes::install_github('JohnCoene/echarts4r.maps')
+```
+
+## 1.D. Loading Packages 
+
+Also loading `dplyr` for data manipulation and `palmerpenguins` for dummy data. 
+
+```{r}
+library(dplyr)
+library(palmerpenguins)
+library(echarts4r)
+library(echarts4r.maps)
+
+e_common(
+  font_family = "Georgia",
+  theme = "dark-mushroom"
+)
+```
+
+# 2. Basic Charts 
+
+## 2.A. Column  
+
+```{r}
+penguins |>
+  group_by(island) |>
+  summarise(average_mass = mean(body_mass_g, na.rm = TRUE)) |>
+  e_chart(island) |>
+  e_bar(average_mass) |>
+  e_tooltip(trigger = " axis")
+```
+
+## 2.B. Bar Chart 
+
+```{r}
+penguins |>
+  group_by(island) |>
+  summarise(average_mass = mean(body_mass_g, na.rm = TRUE)) |>
+  e_chart(island) |>
+  e_bar(average_mass) |>
+  e_flip_coords() |> # THIS LINE OF CODE # 
+  e_tooltip()
+```
+
+## 2.C. Scatter Chart 
+
+```{r}
+penguins |>
+  group_by(species) |>
+  e_chart(bill_length_mm) |>
+  e_scatter(bill_depth_mm) |>
+  e_tooltip()
+```
+
+## 2. . Heatmap 
+
+## 2. . Candlestick 
+
+## 2. . Treemap 
+
+## 2. . Calendars 
+
+```{r}
+dates <- seq.Date(as.Date("2017-01-01"), as.Date("2018-12-31"), by = "day")
+values <- rnorm(length(dates), 20, 6)
+
+year <- data.frame(date = dates, values = values)
+
+year |> 
+  e_charts(date) |> 
+  e_calendar(range = "2018") |> 
+  e_heatmap(values, coord_system = "calendar") |> 
+  e_visual_map(max = 30) |> 
+  e_title("Calendar", "Heatmap") |>
+  e_tooltip()
+```
+
+When charting by multiple years, call `e_calendar` again and group by year. 
+
+```{r}
+year |> 
+  dplyr::mutate(year = format(date, "%Y")) |>
+  group_by(year) |> 
+  e_charts(date) |> 
+  e_calendar(range = "2017",top="40") |> 
+  e_calendar(range = "2018",top="260") |> 
+  e_heatmap(values, coord_system = "calendar") |> 
+  e_visual_map(max = 30) |> 
+  e_title("Calendar", "Heatmap")|>
+  e_tooltip("item") 
+```
+
+## 2.J. Pie / Donut Chart
+
+No.
+
+# 3. Theme Customizations 
+
+## 3.A. Set Common Theme 
+
+Set theme for all charts on the page and set font. 
+
+```{r}
+#| eval: false
+e_common(
+  theme = "my-theme",
+  font_family = "my-font"
+)
+```
+
+## 3.B. Tooltip Theme 
+
+I always customize the tooltip to get rid of the ugly border and the white background. 
+
+```{r}
+penguins |>
+  group_by(island) |>
+  summarise(average_mass = mean(body_mass_g, na.rm = TRUE)) |>
+  e_chart(island) |>
+  e_bar(average_mass) |>
+  e_legend(show = FALSE) |>
+  e_axis_labels(
+    x = "Island",
+    y = "Averge Mass"
+  ) |>
+  e_title(
+    text = "Some meaningful title."
+  ) |>
+  e_tooltip(
+    trigger = " axis",
+    backgroundColor = "rgba(40, 40, 40, 0.75)",
+    borderColor = "rgba(0, 0, 0, 0)",
+    textStyle = list(
+      color = "#fcfcff"
+    )
+  )
+```
+
+## 3.C. Remove Legend 
+
+```{r}
+penguins |>
+  group_by(island) |>
+  summarise(average_mass = mean(body_mass_g, na.rm = TRUE)) |>
+  e_chart(island) |>
+  e_bar(average_mass) |>
+  e_legend(show = FALSE) |>
+  e_axis_labels(
+    x = "Island",
+    y = "Averge Mass"
+  ) |>
+  e_legend(show = FALSE) |> # THIS LINE OF CODE # 
+  e_title(
+    text = "Some meaningful title."
+  ) |>
+  e_tooltip(trigger = " axis")
+```
+
+
+
+# 4. Tooltips 
+
+## 3.C. Default Tooltip Formatter 
+
+One of the arguments in `e_tooltip` is **formatter**. There are three different types of default formats that make it easy to display tooltips nicer:
+
+```{r}
+#| eval: false
+my_echart |>
+  e_tooltip(
+    formatter = e_tooltip_pointer_formatter(style = "percent"),
+    # OR #
+    formatter = e_tooltip_pointer_formatter(style = "percent"),
+    # OR #
+    formatter = e_tooltip_pointer_formatter(style = "percent"),
+  )
+```
+
+
+
+```{r}
+
+```
+
+# 5. Maps 
+
+
+
+

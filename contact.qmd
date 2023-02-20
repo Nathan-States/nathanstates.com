@@ -1,0 +1,35 @@
+---
+include-in-header: "_includes/font-awesome.html"
+knitr:
+  opts_chunk: 
+    collapse: true
+execute: 
+  echo: false
+---
+
+# Reach out to me!
+
+Comments are enabled in the [archives](archives.qmd), but disabled everywhere else. If you'd like to drop a comment about something in particular, or reach out to me for professional inquiries, message me on one of the following platforms.
+
+```{r}
+#| echo: false
+library(distilltools)
+```
+
+`r icon_link(
+  icon = "twitter",   
+  text = "Twitter",   
+  url = "https://twitter.com/nathanstates_" 
+)` 
+`r icon_link(   
+  icon = "mastodon",   
+  text = "Mastodon",   
+  url = "https://mastodon.org/@nathanstates_",
+)` 
+`r icon_link(   
+  icon = "github",   
+  text = "GitHub",   
+  url = "https://github.com/Nathan-States" 
+)`
+
+Or you can send me an email at [nathanstates\@outlook.com](mailto:nathanstates@outlook.com).

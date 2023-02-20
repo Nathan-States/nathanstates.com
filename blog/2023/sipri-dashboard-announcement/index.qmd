@@ -1,0 +1,13 @@
+---
+title: "SIPRI Dashboard Announcement"
+description: "Announcing my new RShiny Dashboard that allows you to view military spending around the world."
+author: "Nathan States"
+date: "2023/01/15"
+categories: [military, dashboards, project_announcements]
+---
+
+I found it surprisingly hard to find a website that displayed military spending around the world in an easy and concise format, so I decided to make my own. Make sure to check it out [here](https://nathan-states.shinyapps.io/sipri-dashboard/). 
+
+:::{.column-page}
+![Picture of Dashboard](thumbnail.png)
+:::

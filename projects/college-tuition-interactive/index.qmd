@@ -1,0 +1,17 @@
+---
+title: "College Prices Interactives"
+description: "View military expenditure around the world." 
+author: "Nathan States"
+draft: true
+---
+
+```{r setup, message=FALSE, warning=FALSE, eval=FALSE}
+library(arrow)
+library(dplyr)
+library(tidyr)
+library(echarts4r)
+library(echarts4r.maps)
+
+df_state_tuition <- read_csv_arrow("_data/tuition-by-state.csv") %>%
+  pivot_longer()
+```

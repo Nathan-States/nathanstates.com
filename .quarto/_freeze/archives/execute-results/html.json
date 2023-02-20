@@ -1,0 +1,16 @@
+{
+  "hash": "7b528400b899261a64bd9a3aeb6d9ca3",
+  "result": {
+    "markdown": "---\nlisting:\n  contents: archives\n  sort: \"date desc\"\n  type: table\n  categories: false\n  sort-ui: false \n  filter-ui: false\npage-layout: full\ntitle-block-banner: false\nknitr:\n  opts_chunk: \n    collapse: true\nexecute: \n  echo: false\n---\n\n\n<center>\n# [Archives]{.dark-primary}\n\n🚧 **UNDER CONSTRUCTION** 🚧\n</center>\n",
+    "supporting": [
+      "archives_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

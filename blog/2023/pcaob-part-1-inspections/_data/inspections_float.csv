@@ -1,0 +1,161 @@
+year,firm,category,Audits Inspected,Audits Deficient
+2016,Deloitte,$100M-$500M,6,3
+2017,Deloitte,$100M-$500M,11,2
+2018,Deloitte,$100M-$500M,15,0
+2019,Deloitte,$100M-$500M,5,2
+2020,Deloitte,$100M-$500M,14,0
+2016,KPMG,$100M-$500M,5,7
+2017,KPMG,$100M-$500M,6,9
+2018,KPMG,$100M-$500M,6,1
+2019,KPMG,$100M-$500M,5,2
+2020,KPMG,$100M-$500M,8,1
+2016,PricewaterhouseCoopers,$100M-$500M,9,1
+2017,PricewaterhouseCoopers,$100M-$500M,9,2
+2018,PricewaterhouseCoopers,$100M-$500M,9,3
+2019,PricewaterhouseCoopers,$100M-$500M,5,1
+2020,PricewaterhouseCoopers,$100M-$500M,1,0
+2016,Ernst & Young,$100M-$500M,7,0
+2017,Ernst & Young,$100M-$500M,8,1
+2018,Ernst & Young,$100M-$500M,6,1
+2019,Ernst & Young,$100M-$500M,10,1
+2020,Ernst & Young,$100M-$500M,3,1
+2016,Deloitte,$10B-$50B,5,0
+2017,Deloitte,$10B-$50B,4,1
+2018,Deloitte,$10B-$50B,5,0
+2019,Deloitte,$10B-$50B,7,0
+2020,Deloitte,$10B-$50B,6,0
+2016,KPMG,$10B-$50B,3,2
+2017,KPMG,$10B-$50B,2,4
+2018,KPMG,$10B-$50B,5,4
+2019,KPMG,$10B-$50B,5,2
+2020,KPMG,$10B-$50B,6,1
+2016,PricewaterhouseCoopers,$10B-$50B,6,0
+2017,PricewaterhouseCoopers,$10B-$50B,5,1
+2018,PricewaterhouseCoopers,$10B-$50B,8,1
+2019,PricewaterhouseCoopers,$10B-$50B,4,2
+2020,PricewaterhouseCoopers,$10B-$50B,8,1
+2016,Ernst & Young,$10B-$50B,2,3
+2017,Ernst & Young,$10B-$50B,2,2
+2018,Ernst & Young,$10B-$50B,4,1
+2019,Ernst & Young,$10B-$50B,8,1
+2020,Ernst & Young,$10B-$50B,7,0
+2016,Deloitte,$1B-$2.5B,12,6
+2017,Deloitte,$1B-$2.5B,8,2
+2018,Deloitte,$1B-$2.5B,8,1
+2019,Deloitte,$1B-$2.5B,9,2
+2020,Deloitte,$1B-$2.5B,8,0
+2016,KPMG,$1B-$2.5B,4,6
+2017,KPMG,$1B-$2.5B,7,4
+2018,KPMG,$1B-$2.5B,7,4
+2019,KPMG,$1B-$2.5B,6,4
+2020,KPMG,$1B-$2.5B,8,4
+2016,PricewaterhouseCoopers,$1B-$2.5B,13,4
+2017,PricewaterhouseCoopers,$1B-$2.5B,10,3
+2018,PricewaterhouseCoopers,$1B-$2.5B,11,4
+2019,PricewaterhouseCoopers,$1B-$2.5B,10,6
+2020,PricewaterhouseCoopers,$1B-$2.5B,18,0
+2016,Ernst & Young,$1B-$2.5B,7,6
+2017,Ernst & Young,$1B-$2.5B,11,6
+2018,Ernst & Young,$1B-$2.5B,7,7
+2019,Ernst & Young,$1B-$2.5B,7,2
+2020,Ernst & Young,$1B-$2.5B,8,2
+2016,Deloitte,$2.5B-$5B,5,1
+2017,Deloitte,$2.5B-$5B,6,4
+2018,Deloitte,$2.5B-$5B,8,1
+2019,Deloitte,$2.5B-$5B,6,1
+2020,Deloitte,$2.5B-$5B,8,1
+2016,KPMG,$2.5B-$5B,6,2
+2017,KPMG,$2.5B-$5B,2,2
+2018,KPMG,$2.5B-$5B,4,0
+2019,KPMG,$2.5B-$5B,8,2
+2020,KPMG,$2.5B-$5B,1,1
+2016,PricewaterhouseCoopers,$2.5B-$5B,1,1
+2017,PricewaterhouseCoopers,$2.5B-$5B,9,4
+2018,PricewaterhouseCoopers,$2.5B-$5B,6,0
+2019,PricewaterhouseCoopers,$2.5B-$5B,4,2
+2020,PricewaterhouseCoopers,$2.5B-$5B,6,0
+2016,Ernst & Young,$2.5B-$5B,11,5
+2017,Ernst & Young,$2.5B-$5B,9,3
+2018,Ernst & Young,$2.5B-$5B,8,2
+2019,Ernst & Young,$2.5B-$5B,3,1
+2020,Ernst & Young,$2.5B-$5B,6,0
+2016,Deloitte,$500M-$1B,8,1
+2017,Deloitte,$500M-$1B,5,2
+2018,Deloitte,$500M-$1B,4,2
+2019,Deloitte,$500M-$1B,8,1
+2020,Deloitte,$500M-$1B,5,0
+2016,KPMG,$500M-$1B,4,0
+2017,KPMG,$500M-$1B,2,2
+2018,KPMG,$500M-$1B,8,2
+2019,KPMG,$500M-$1B,7,5
+2020,KPMG,$500M-$1B,5,4
+2016,PricewaterhouseCoopers,$500M-$1B,8,4
+2017,PricewaterhouseCoopers,$500M-$1B,4,2
+2018,PricewaterhouseCoopers,$500M-$1B,1,2
+2019,PricewaterhouseCoopers,$500M-$1B,7,4
+2020,PricewaterhouseCoopers,$500M-$1B,5,0
+2016,Ernst & Young,$500M-$1B,7,0
+2017,Ernst & Young,$500M-$1B,4,2
+2018,Ernst & Young,$500M-$1B,5,1
+2019,Ernst & Young,$500M-$1B,6,3
+2020,Ernst & Young,$500M-$1B,8,1
+2016,Deloitte,$5B-$10B,4,1
+2017,Deloitte,$5B-$10B,8,0
+2018,Deloitte,$5B-$10B,4,1
+2019,Deloitte,$5B-$10B,5,0
+2020,Deloitte,$5B-$10B,3,1
+2016,KPMG,$5B-$10B,5,4
+2017,KPMG,$5B-$10B,2,4
+2018,KPMG,$5B-$10B,3,7
+2019,KPMG,$5B-$10B,4,2
+2020,KPMG,$5B-$10B,4,1
+2016,PricewaterhouseCoopers,$5B-$10B,5,1
+2017,PricewaterhouseCoopers,$5B-$10B,5,0
+2018,PricewaterhouseCoopers,$5B-$10B,5,1
+2019,PricewaterhouseCoopers,$5B-$10B,5,1
+2020,PricewaterhouseCoopers,$5B-$10B,4,0
+2016,Ernst & Young,$5B-$10B,5,1
+2017,Ernst & Young,$5B-$10B,2,3
+2018,Ernst & Young,$5B-$10B,8,1
+2019,Ernst & Young,$5B-$10B,6,2
+2020,Ernst & Young,$5B-$10B,3,3
+2016,Deloitte,>$50 billion,1,0
+2017,Deloitte,>$50 billion,1,0
+2018,Deloitte,>$50 billion,1,1
+2019,Deloitte,>$50 billion,4,0
+2020,Deloitte,>$50 billion,4,0
+2016,KPMG,>$50 billion,0,1
+2017,KPMG,>$50 billion,2,1
+2018,KPMG,>$50 billion,0,1
+2019,KPMG,>$50 billion,0,1
+2020,KPMG,>$50 billion,4,1
+2016,PricewaterhouseCoopers,>$50 billion,3,0
+2017,PricewaterhouseCoopers,>$50 billion,0,0
+2018,PricewaterhouseCoopers,>$50 billion,0,1
+2019,PricewaterhouseCoopers,>$50 billion,4,1
+2020,PricewaterhouseCoopers,>$50 billion,7,0
+2016,Ernst & Young,>$50 billion,1,0
+2017,Ernst & Young,>$50 billion,1,0
+2018,Ernst & Young,>$50 billion,0,1
+2019,Ernst & Young,>$50 billion,2,1
+2020,Ernst & Young,>$50 billion,6,1
+2016,Deloitte,<$100M,1,1
+2017,Deloitte,<$100M,1,0
+2018,Deloitte,<$100M,1,0
+2019,Deloitte,<$100M,8,0
+2020,Deloitte,<$100M,3,0
+2016,KPMG,<$100M,2,0
+2017,KPMG,<$100M,3,0
+2018,KPMG,<$100M,0,0
+2019,KPMG,<$100M,5,0
+2020,KPMG,<$100M,3,1
+2016,PricewaterhouseCoopers,<$100M,0,0
+2017,PricewaterhouseCoopers,<$100M,0,1
+2018,PricewaterhouseCoopers,<$100M,1,2
+2019,PricewaterhouseCoopers,<$100M,3,1
+2020,PricewaterhouseCoopers,<$100M,2,0
+2016,Ernst & Young,<$100M,0,0
+2017,Ernst & Young,<$100M,1,0
+2018,Ernst & Young,<$100M,2,0
+2019,Ernst & Young,<$100M,7,0
+2020,Ernst & Young,<$100M,3,0

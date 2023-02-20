@@ -1,0 +1,77 @@
+{
+  "index.qmd": {
+    "index.html": "d2cd3f0a"
+  },
+  "about.qmd": {
+    "about.html": "676f3b3c"
+  },
+  "posts/post-with-code/index.qmd": {
+    "index.html": "3606ede6"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "9c4c33f1"
+  },
+  "posts/pcaob-part-1/index.qmd": {
+    "index.html": "7f0c7b90"
+  },
+  "contact.qmd": {
+    "contact.html": "fb5bae31"
+  },
+  "404.qmd": {
+    "404.html": "d6a51d26"
+  },
+  "projects/sipri-dashboard/index.qmd": {
+    "index.html": "3614b436"
+  },
+  "projects.qmd": {
+    "projects.html": "8610f243"
+  },
+  "blog/welcome/index.qmd": {
+    "index.html": "3d28062c"
+  },
+  "notes/echarts4r/index.qmd": {
+    "index.html": "7ba88c90"
+  },
+  "notes.qmd": {
+    "notes.html": "22071a4f"
+  },
+  "blog/pcaob-part-1/index.qmd": {
+    "index.html": "1ca8aa89"
+  },
+  "blog/2023/pcaob-part-1-inspections/index.qmd": {
+    "index.html": "cbd6f15d"
+  },
+  "blog/2023/welcome/index.qmd": {
+    "index.html": "136bf5c5"
+  },
+  "blog/2023/sipri-dashboard-announcement/index.qmd": {
+    "index.html": "4a4df813"
+  },
+  "blog/2023/pcaob-part-2-enforcement/index.qmd": {
+    "index.html": "82776438"
+  },
+  "blog/2023/covid-19-stimulus-database-part-1/index.qmd": {
+    "index.html": "eecbed0a"
+  },
+  "blog/2023/covid-19-stimulus-database-part-2/index.qmd": {
+    "index.html": "b6099cb8"
+  },
+  "projects/college-tuition-interactive/index.qmd": {
+    "index.html": "f32f24be"
+  },
+  "license.qmd": {
+    "license.html": "6c4a3430"
+  },
+  "blog/2023/ultimate-yemen-reading-appendix/index.qmd": {
+    "index.html": "db853d81"
+  },
+  "archives.qmd": {
+    "archives.html": "1e37ca32"
+  },
+  "blog/2023/bengaluru-text-mining/index.qmd": {
+    "index.html": "04b7ad19"
+  },
+  "blog/2023/cfo-act-of-1990/index.qmd": {
+    "index.html": "63d51573"
+  }
+}

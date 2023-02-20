@@ -1,0 +1,461 @@
+---
+title: "Analyzing 20 Years of PCAOB Data: Part 1 (Inspections)"
+description: "Breaking down inspection reports from eight of the largest audit firms, including international affiliates."
+author: "Nathan States"
+date: "2023-01-27"
+image: thumbnail.png
+categories: [pcaob, government]
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
+---
+
+A couple years back, I remember reading a story published by the Project on Government Oversight (POGO) titled, "[*How an Agency You've Never Heard of Is Leaving the Economy at Risk*](https://www.pogo.org/investigation/2019/09/how-an-agency-youve-never-heard-of-is-leaving-the-economy-at-risk)." The agency in question is the **Public Company Accounting Oversight Board** (PCAOB), who is responsible for regulating the audit industry. The audit industry was once almost entirely self-regulated, but that changed after the collapse of *Enron* in 2002.  
+
+The article starts by pointing out that, despite the PCAOB finding hundreds of audits performed deficiently among the four largest audits firms in the United States, the board rarely deals out punishment. While the board can fine firms up to \$2,000,000 for each audit performed deficiently, they've only fined the big four a total of \$6,500,000 (not including their international affiliates). While the article was written in 2019, that number hasn't changed as of February 2023. 
+
+[The PCAOB classifies deficiencies into two categories](https://pcaobus.org/Inspections/Documents/Inspections-Report-Guide.pdf): 
+
+* **Type 1.A deficiencies** are defined as:
+
+> Deficiencies that were of *such significance* that we believe the firm, at the time it issued its audit report(s), had **not obtained sufficient appropriate audit evidence to support its opinion(s)** on the issuer's financial statements and/or ICFR.
+
+* **Type 1.B deficiencies** are defined as:
+
+> Deficiencies that do not relate directly to the sufficiency or appropriateness of evidence the firm obtained to support its opinion(s) but nevertheless **relate to instances of non-compliance with PCAOB standards or rules**.
+
+The article continues by interviewing several former board members, asking them questions about the PCAOB budget, inner politics, and the overall lack of enforcement. They ultimately conclude that the board is weak and ineffective. 
+
+It's an interesting read, but while the article does rely on *some* data analysis, it doesn't fully analyze either of the databases. Out of curiosity, I decided to collect 20 years worth of inspection reports from the PCAOB to see if the data supports POGO's conclusions. Here's what I found. 
+
+## Gathering the Data
+
+Before diving into things, I'll make a quick note on how the data was collected. 
+
+If you go to [*pcaobus.org*](https://pcaobus.org/), you'll find two separate databases: [**inspections**](https://pcaobus.org/oversight/inspections/firm-inspection-reports) and [**enforcement actions**](https://pcaobus.org/oversight/enforcement/enforcement-actions?enforcementordertypes=Settled%20Disciplinary%20Order). Both databases provide reports in PDF format, so I manually gathered the relevant details from each file, and stored them in two separate spreadsheets. 
+
+The PCAOB has performed over 3,500 inspection reports since its creation in 2002, with about 2,800 being on domestic firms. I collected data on the firm, year, number of audits inspected, and number of audits that were deficient from each of the report. This takes a long time, which is why I only have data on the largest auditing firms. Only 14 firms receive annual inspections from the PCAOB, so the data outside of them is sparse anyways. I also recorded industry and revenue range for the four largest firms, who were the focus of the article, and will be the focus here.
+
+Those **Big Four** - those being Deloitte, PricewaterhouseCoopers, KPMG, and Ernst & Young - audit almost half of all publicly traded companies, including almost every company on the S&P 500. They have a disproportionate influence on overall audit quality, which is also why the POGO article spends so much time focusing on them. This post will follow a similar approach. 
+
+## Programming 
+
+Code for my programmers; scroll down to table if you don't care.
+
+**Setup**: Here, we import the neccessary libraries and the data. The tables will be created using `gt`, while the interactive charts are created using `ehcarts4r`.
+
+```{r SETUP, message=FALSE, warning=FALSE}
+# Load Libraries ---- 
+library(tidyverse)
+library(gt)
+library(sysfonts)
+library(ggtext)
+library(gtExtras)
+library(here)
+library(extrafont)
+library(echarts4r)
+
+# Set Directory ----
+here::set_here()
+
+# Import Data ----
+inspections <- read_csv("_data/inspections.csv")
+inspections_category <- read_csv("_data/inspections_category.csv")
+inspections_revenue <- read_csv("_data/inspections_float.csv")
+```
+
+**Data Wrangling**: In order to get the table, we need to create two dataframes containing both domestic and international summations. Then, we can join those dataframes together and calculate totals. I also manually added the logo path and 2022 revenue amounts using `case_when`. 
+
+```{r DATA WRANGLING, message=FALSE, warning=FALSE}
+# Extracting year from date 
+inspections$year <- as.Date(as.character(inspections$year), format = "%Y")
+inspections$year <- substring(inspections$year, 1, 4)
+
+# Calculating rates, totals, and select column order for domestic and international 
+overview_domestic <- inspections |>
+  filter(!is.na(audits_inspected)) |>
+  filter(!is.na(audits_failed)) |>
+  filter(country == "United States") |>
+  group_by(firm) |>
+  summarise(
+    domestic_audits_inspected = sum(audits_inspected, na.rm = TRUE),
+    domestic_audits_failed = sum(audits_failed, na.rm = TRUE),
+    domestic_fail_rate = domestic_audits_failed / domestic_audits_inspected,
+  )
+
+overview_international <- inspections |>
+  filter(!is.na(audits_inspected)) |>
+  filter(!is.na(audits_failed)) |>
+  filter(country != "United States") |>
+  group_by(firm) |>
+  summarise(
+    international_audits_inspected = sum(audits_inspected, na.rm = TRUE),
+    international_audits_failed = sum(audits_failed, na.rm = TRUE),
+    international_fail_rate = international_audits_failed / international_audits_inspected
+  )
+
+# Joining data together 
+overview <- left_join(
+  x = overview_domestic,
+  y = overview_international,
+  by = "firm"
+)  |>
+  drop_na()
+
+# Calculating totals and adding revenue/logo path
+overview <- overview |>
+  mutate(
+    total_audits_inspected = domestic_audits_inspected + international_audits_inspected,
+    total_audits_failed = domestic_audits_failed + international_audits_failed,
+    total_fail_rate = total_audits_failed / total_audits_inspected,
+    revenue = case_when(
+      firm == "Deloitte" ~ 59300000000,
+      firm == "PricewaterhouseCoopers" ~ 50300000000, 
+      firm == "Ernst & Young" ~ 45400000000,
+      firm == "KPMG" ~ 34600000000,
+      firm == "BDO" ~ 12800000000,
+      firm == "RSM" ~ 8132000000,
+      firm == "Grant Thornton" ~ 7200000000,
+      firm == "Crowe" ~ 3800000000
+    ),
+    logo = case_when(
+      firm == "Deloitte" ~ "_logos/deloitte.png",
+      firm == "PricewaterhouseCoopers" ~ "_logos/pwc.png", 
+      firm == "Ernst & Young" ~ "_logos/ernst-and-young.png",
+      firm == "KPMG" ~ "_logos/kpmg.png",
+      firm == "BDO" ~ "_logos/bdo.png",
+      firm == "RSM" ~ "_logos/rsm.png",
+      firm == "Grant Thornton" ~ "_logos/grant-thornton.png",
+      firm == "Crowe" ~ "_logos/crowe.png"
+    )
+  ) |>
+  drop_na() |>
+  select(logo, firm, revenue, domestic_audits_inspected, domestic_audits_failed, domestic_fail_rate, international_audits_inspected, international_audits_failed, international_fail_rate, total_audits_inspected, total_audits_failed, total_fail_rate)
+```
+
+**Table**: Finally, making the table with `gt`. 
+
+```{r, message=FALSE, warning=FALSE}
+#| column: screen
+overview |>
+  arrange(desc(revenue)) |>
+  gt() |>
+  gt_img_rows(
+    columns = logo,
+    img_source = "local",
+    height = px(40)
+  ) |>
+  fmt_percent(
+    columns = c(domestic_fail_rate, international_fail_rate, total_fail_rate),
+    decimals = 1
+  ) |>
+  fmt_currency(
+    columns = revenue,
+    currency = "USD",
+    suffixing = TRUE
+  ) |>
+  gt_color_rows(
+    columns = c(domestic_fail_rate, international_fail_rate, total_fail_rate),
+    palette = "ggsci::blue_material",
+    domain = c(0.18, 0.54)
+  ) |>
+  gt_theme_nytimes() |>
+  cols_align(
+    align = "center",
+    columns = c(revenue, domestic_audits_inspected, domestic_audits_failed, domestic_fail_rate, international_audits_inspected, international_audits_failed, international_fail_rate, total_audits_inspected, total_audits_failed, total_fail_rate)
+  ) |>
+  tab_header(
+    title = md("PCAOB INSPECTION RESULTS"),
+    subtitle = md("The Public Company Accounting Oversight Board is a quasi-governmental agency founded in 2002 by the Sarbanes-Oxley Act. They are responsible for setting guidelines, regulating, and investigating the audit industry. About 45% of the PCAOB's budget is dedicated to inspections, where the board investigates whether an audit was conducted properly or not. <br><br> When audit opinions lack credible evidence, or the audit was conducted improperly, the board will declare it **deficient**, meaning the audit lacked evidence to support its audit opinion. Below are the inspection results for the eight largest audit firms in the United States, broken down between domestic and international firms, from 2009 - 2021. <br>")
+  ) |>
+  tab_source_note(md("**Data**: PCAOB")) |>
+  tab_footnote(
+    "Deloitte includes years 2007 & 2008.",
+    locations = cells_body(columns = firm, rows = 1)
+  ) |>
+  tab_footnote(
+    "PwC includes 2008.",
+    locations = cells_body(columns = firm, rows = 2)
+  ) |>
+  tab_footnote(
+    "RSM only includes years 2015 - 2021.",
+    locations = cells_body(columns = firm, rows = 6)
+  ) |>
+  tab_footnote(
+    "All data was collected from 2009 - 2021 unless stated otherwise below."
+  ) |>
+  tab_spanner(
+    label = "Domestic",
+    columns = c(domestic_audits_inspected, domestic_audits_failed, domestic_fail_rate)
+  ) |>
+  tab_spanner(
+    label = "International",
+    columns = c(international_audits_inspected, international_audits_failed, international_fail_rate)
+  ) |>
+  tab_spanner(
+    label = "Totals",
+    columns = c(total_audits_inspected, total_audits_failed, total_fail_rate)
+  ) |>
+  tab_style(
+    cell_text(
+      color = "#212124",
+      size = "large",
+      transform = "uppercase"
+    ),
+    locations = cells_column_spanners()
+  ) |>
+  tab_style(
+    cell_borders(
+      sides = "bottom", color = "#212124", style = "solid", weight = px(2)
+    ),
+    locations = cells_column_spanners()
+  ) |>
+  tab_style(
+    cell_borders(
+      sides = "right", color = "#212124", style = "solid", weight = px(2)
+    ),
+    locations = cells_column_spanners()
+  ) |>
+  tab_style(
+    cell_borders(
+      sides = "right", color = "#212124", style = "solid", weight = px(2)
+    ),
+    locations = cells_body(columns = c(domestic_fail_rate, international_fail_rate))
+  ) |>
+  tab_style(
+    cell_borders(
+      sides = "right", color = "#212124", style = "solid", weight = px(2)
+    ),
+    locations = cells_column_labels(columns = c(domestic_fail_rate, international_fail_rate))
+  ) |>
+  tab_style(
+    cell_text(
+      weight = "bold"
+    ),
+    locations = cells_body(columns = c(domestic_fail_rate, international_fail_rate, total_fail_rate))
+  ) |>
+  tab_options(
+    table.background.color = "#fcfcff",
+    column_labels.font.size = 9.5,
+    table.font.size = 18,
+    heading.title.font.size = 30
+  ) |>
+  cols_width(
+    logo ~ px(70),
+    firm ~ px(210),
+    revenue ~ px(105),
+    everything() ~ px(65)
+  ) |>
+  cols_label(
+    logo = "",
+    revenue = "2022 REVENUE",
+    domestic_audits_inspected = "AUDITS INSP.",
+    domestic_audits_failed = "AUDITS DEF.",
+    international_audits_inspected = "AUDITS INSP.",
+    international_audits_failed = "AUDITS DEF.",
+    total_audits_inspected = "AUDITS INSP.",
+    total_audits_failed = "AUDITS DEF.",
+    domestic_fail_rate = "DEF. RATE",
+    international_fail_rate = "DEF. RATE",
+    total_fail_rate = "DEF. RATE"
+  ) 
+```
+
+Let me give a quick breakdown of what you're looking at.
+
+Above are the eight largest audit firms in the United States, who audit over half of all publicly traded companies, including every single company on the S&P 500. I've also included their 2022 revenue amounts for comparison. As a reference, \$59.3 billion would put Deloitte as the third largest privately owned company in the United States in terms of revenue, and top 50 overall. 
+
+The PCAOB will issue annual reports for the very largest firms, where they will inspect a select number of audits to see if they were conducted properly or not. They categorize deficiencies into two different types, though type B deficiencies are not recorded in any meaningful capacity. If the PCAOB finds an audit to be type A deficient, it means the audit was conducted so poorly that the results have no evidence to support their conclusions. This doesn't mean that the company is engaged in fraud, or other accounting misconduct, but *if* they were, it likely would of gone undetected. 
+
+It should be noted that the PCAOB uses a **risk-based** selection process when choosing which audits to investigate. **This means that deficiency rates aren't representative of how often the average audit by a given firm will be deficient.** Since 2016, the board began including a sample of randomly selected audits to include in their annual audit inspections, but the reports do not specify which audits were deficient or not. 
+
+Each of these firms have affiliates all over the world, primarily in Canada, Mexico, the United Kingdom, and Bermuda. If a company/asset located in another country also appears on a US market, then is must audited to PCAOB standards. 
+
+POGO released [another article](https://www.pogo.org/investigation/2019/09/botched-audits-big-four-accounting-firms-fail-many-inspections) talking about this, but even if we were to acknowledge that audits are selected based on risk, successfully predicting audits 33% to nearly 50% is insane. Even BDO's most recent inspection report failed 16 out of 30 audits despite the fact 11 of them were selected randomly. Unfortunately, the reports don't disclose the companies whose audits were found to be deficient, so it's not possible to determine what tangible effect this has on the economy. 
+
+## Breakdown by Year
+
+Firm deficiency rates have changed significantly from year to year since 2009. Reports prior to that year don't include the total number of audits inspected, which is why they're not included in the table above, and the chart below. Oddly, Deloitte reports from 2007-2008 and the PwC 2008 *do* include these numbers, though not for any other firm. These are the results for domestic firms. 
+
+```{r DOMESTIC CHART, out.height=9, message=FALSE}
+#| column: screen
+inspections |>
+  filter(country == "United States") |>
+  filter(year > "2008") |>
+  filter(firm != "Marcum") |>
+  mutate(Fail_Rate = audits_failed / audits_inspected) |>
+  group_by(firm) |>
+  e_chart(year) |>
+  e_line(Fail_Rate) |>
+  e_y_axis(
+    formatter = e_axis_formatter(style = "percent")
+  ) |>
+  e_legend(
+    type = "scroll",
+    bottom = 0.5
+  ) |>
+  e_legend_unselect("Crowe") |>
+  e_legend_unselect("BDO") |>
+  e_legend_unselect("Grant Thornton") |>
+  e_legend_unselect("RSM") |>
+  e_color(
+    c("#1e2023", "#5f9fa0", "#49a84c", "#f6bc00", "#960ff9", "#4c86f9", "#e1432e", "#9d1774")
+  ) |>
+  e_axis_labels(
+    y = "Deficiency Rate"
+  ) |>
+  e_title(
+     text = "Domestic Inspection Results",
+     right = 30,
+     textStyle = list(
+       fontSize = 26
+     )
+  ) |>
+  e_tooltip(
+    backgroundColor = "rgba(40, 40, 40, 0.75)",
+    borderColor = "rgba(0, 0, 0, 0)",
+    trigger = "axis",
+    formatter = e_tooltip_pointer_formatter(style = "percent"),
+    textStyle = list(
+      color = "#fcfcff"
+    )
+  )
+```
+
+<br>
+
+I disabled other firms so the chart isn't too cluttered. You can activate them by clicking them in the legend. 
+
+Each of the four largest firms have performed the worst in at least one year, but KPMG has shown some impressive consistency, finishing with the worst deficiency rate in 7 out of the last 8 years (besides in 2019, where they finished 1% better than PwC - the worst firm that year). Outside of them, BDO flies high above in terms of poor performance, while other firms follow somewhat similar trends, though RSM results have been sporadic. 
+There aren't many international reports on firms outside of the big four, so I've left them out in the chart below. Here are the results for international firms. 
+
+```{r INTERNATIONAL CHART, out.height=9, message=FALSE}
+#| column: screen
+inspections |>
+  filter(country != "United States") |>
+  filter(year > "2006") |>
+  filter(firm %in% c("Deloitte", "PricewaterhouseCoopers", "Ernst & Young", "KPMG")) |>
+  filter(!is.na(audits_inspected)) |>
+  group_by(firm, year) |>
+  summarise(
+    audits_inspected = sum(audits_inspected, na.rm = TRUE),
+    audits_failed = sum(audits_failed, na.rm = TRUE)
+  ) |>
+  mutate(Fail_Rate = audits_failed / audits_inspected) |>
+  e_chart(year) |>
+  e_line(Fail_Rate) |>
+  e_y_axis(
+    formatter = e_axis_formatter(style = "percent")
+  ) |>
+  e_legend(
+    type = "scroll",
+    bottom = 0.5
+  ) |>
+  e_color(
+    c("#275b29", "#a98100", "#345cac", "#942c1e")
+  ) |>
+  e_axis_labels(
+    y = "Deficiency Rate"
+  ) |>
+  e_title(
+    text = "International Inspection Results"
+  ) |>
+  e_tooltip(
+    backgroundColor = "rgba(40, 40, 40, 0.75)",
+    borderColor = "rgba(0, 0, 0, 0)",
+    trigger = "axis",
+    formatter = e_tooltip_pointer_formatter(style = "percent"),
+    textStyle = list(
+      color = "#fcfcff"
+    )
+  )
+```
+
+If domestic results were more steady and consistent, than international rates are much more irregular. This is partly because of fewer observations, but also because individual countries tended to tank performance. For example, PCAOB found that *Deloitte Canada* had performed **37 out of 48 audits deficiently** from 2010-2015, or a **77%** deficiency rate. 
+
+Country performance was somewhat consistent among the firms. Both KPMG and PwC Canadian affiliates also had 50%+ deficiency rates. Meanwhile, no Bermuda affiliates have deficiency rates above 25%.    
+
+Remember when I said how inspection reports prior to 2009 don't include the total number of audits inspected? For some reason, international affiliates have always included this number, even for reports dating back as early as 2005. Out of all the reports I've analyzed, though, reports from *KPMG Canada* from 2005-2008 were the **only** international reports that did not include the total number of audits inspected. I'm not sure why they're so inconsistent about this number. 
+
+## Other Information
+
+I'm not really sure what purpose this is supposed to serve form an investor perspective, but reports after 2014 include the revenue range, and industry sector of each audit inspected. Given that company names aren't disclosed, it's hard to know if this information has literally any use at all, but here it is anyways. 
+
+**Industry Sectors**. 
+
+```{r}
+#| column: page
+inspections_category |>
+  group_by(category) |>
+  summarise(
+    Audits_Inspected = sum(`Audits Inspected`, na.rm = TRUE),
+    Audits_Deficient = sum(`Audits Deficient`, na.rm = TRUE)
+  ) |> 
+  mutate(total = Audits_Inspected + Audits_Deficient) |>
+  arrange(total) |>
+  e_chart(category) |>
+  e_bar(Audits_Inspected, stack = "group") |>
+  e_bar(Audits_Deficient, stack = "group") |>
+  e_legend(show = FALSE) |>
+  e_flip_coords() |>
+  e_title(
+    text = "Industry Ranges",
+    left = "left",
+    top = -5,
+    textStyle = list(
+      fontSize = 25
+    )
+  ) |>
+  e_color(c("#0e437c", "#7393ad")) |>
+  e_tooltip(
+    backgroundColor = "rgba(40, 40, 40, 0.75)",
+    borderColor = "rgba(0, 0, 0, 0)",
+    trigger = "axis",
+    textStyle = list(
+      color = "#fcfcff"
+    )
+  )
+```
+
+**Revenue Ranges**. 
+
+```{r}
+#| column: page
+inspections_revenue |>
+  group_by(category) |>
+  summarise(
+    Audits_Inspected = sum(`Audits Inspected`, na.rm = TRUE),
+    Audits_Deficient = sum(`Audits Deficient`, na.rm = TRUE)
+  ) |> 
+  mutate(total = Audits_Inspected + Audits_Deficient) |>
+  arrange(total) |>
+  e_chart(category) |>
+  e_bar(Audits_Inspected, stack = "group") |>
+  e_bar(Audits_Deficient, stack = "group") |>
+  e_legend(show = FALSE) |>
+  e_flip_coords() |>
+  e_title(
+    text = "Revenue Ranges",
+    left = "left",
+    top = -5,
+    textStyle = list(
+      fontSize = 25
+    )
+  ) |>
+  e_color(c("#0e437c", "#7393ad")) |>
+  e_tooltip(
+    backgroundColor = "rgba(40, 40, 40, 0.75)",
+    borderColor = "rgba(0, 0, 0, 0)",
+    trigger = "axis",
+    textStyle = list(
+      color = "#fcfcff"
+    )
+  )
+```
+
+Before I say anything, I'd like to point out that one of the reports listed a category as "Other" for exactly one deficient audit. That category name has never been used again. Anyways; 
+
+There's not much to say. There's no data on the outcomes of companies who routinely receive deficient audits, so there isn't any reason to choose your investing strategies based on these results. In general, it seems the PCAOB tends to find audits from the industrials, financials, 
+and materials sectors to be more deficient on average, kind-of regardless of revenue range. 

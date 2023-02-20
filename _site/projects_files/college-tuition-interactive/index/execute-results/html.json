@@ -1,0 +1,16 @@
+{
+  "hash": "a1574be35b8d1fe00b17e7bcd5bd33ff",
+  "result": {
+    "markdown": "---\ntitle: \"College Prices Interactives\"\ndescription: \"View military expenditure around the world.\" \nauthor: \"Nathan States\"\ndraft: true\n---\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(arrow)\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(echarts4r)\nlibrary(echarts4r.maps)\n\ndf_state_tuition <- read_csv_arrow(\"_data/tuition-by-state.csv\") %>%\n  pivot_longer()\n```\n:::\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

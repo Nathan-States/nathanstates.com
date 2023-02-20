@@ -1,0 +1,339 @@
+---
+title: "Building a COVID-19 Economic Relief Database: Part 2 (Apache Arrow)"
+description: "Using the power of big data to compress 140GB of data to less than 10GB."
+author: "Nathan States"
+date: "02/02/2023"
+draft: true
+---
+
+A quick recap of the last post. 
+
+* We've now downloaded the compressed database from usaspending.gov and have it stored locally onto our computer. 
+* We need to group the data by each `award_unique_key`. However, the data is spread across 139 different files, each one being over a giga-byte big, totaling over 140GB. 
+* `R` stores datasets into RAM, which means we need over 140GB of RAM to perform computations. No commercial computer comes with that much memory, so how do we go about importing the dataset. 
+
+That's where **Apache Arrow** comes in. 
+
+![](thumbnail.png){.preview-image}
+
+## Quick Rundown 
+
+*Arrow* comes from the [Apache Software Foundation](https://www.apache.org/), who releases free and open source tools for software engineers and data scientists. The package was written using C++, and is available in a variety of programming languages, including Python. What's cool about this is that improvements made to the underlying code will improve performance across all languages as opposed to only one. You can download the `R` version by running: 
+
+```{r, eval=FALSE}
+install.packages("arrow")
+```
+
+Arrow isn't specifically meant to be a solution for big data, but rather, **it's an attempt to standardize data formatting across programming languages**. It uses a special file type called *parquet* for storing data, which is designed to take advantage of modern CPU and GPU capabilities, meaning it can perform operations on billions of rows of data within seconds. Other packages - even `data.table` - can't compete. 
+
+`data.table` was considered to be the fastest package at performing computations before Arrow, but it relied on the original framework `R` used when it was created in 1995. For most modern computers, Arrow should be even faster in the vast majority of use cases. Furthermore, unlike `data.table`, *Arrow* can understand `dplyr` language perfectly fine, which means you don't need to learn a different syntax when data wrangling. 
+
+There is, essentially, no reason not to use Arrow. It's simply superior to other options. With that said, *Arrow* will only offer milliseconds of improvement for dataframes under 10,000 rows, which is why it's usually reserved for big data problems only.  
+
+## Arrow Setup 
+
+Let's quickly load the packages that we need. 
+
+```{r, eval=TRUE}
+library(arrow)
+library(dplyr)
+
+here::set_here()
+```
+
+I have all 139 files stored locally in a folder called "covid-files," which we now want to import. Instead of calling the file name, Arrow allows us to call the *directory* to load the files all together. 
+
+```{r, eval=TRUE}
+df <- open_dataset(
+  "_dummy_data", 
+  format = "csv"
+)
+```
+
+Now, we didn't *actually* load all the data, because that would break the laws of computer hardware. All we did is load the *metadata*, or the **data about our data**. We can see this by calling `df`, which normally would display a spreadsheet, but in this case, gives us the **assumed schema** of our data. 
+
+```{r, echo=TRUE}
+df
+```
+
+I included a demo spreadsheet for this post that contains 20 rows from one of the datasets, including all the original columns, in case you are wondering why only 1 csv file was read. If you are doing this with the original dataset, you will of course have many more files, but the concept is the same in both cases. 
+
+Looking at the schema, some of the columns need to be changed to their correct data type. This should be straightforward for most programmers, but something to keep in mind when using *Arrow* specifically is that they differentiate between bit sizes. This means that if you were trying to run computations on a column with a `int64` datatype on a Windows 32-bit computer, you'd run into errors because *Arrow* would be trying to take advantage of computing power that doesn't exist. If you don't know what any of that means, there is a 99.99% chance you are running a 64 bit computer, in which case you will want to set all data types to that format. 
+
+We'll use the `schema` function to denote our fixed data types and reread in the data. When including a schema, you also have to skip the first row for some reason, so we'll make sure to do that. 
+
+```{r}
+schema_fix <- schema(
+  owning_agency_name = string(),
+  reporting_agency_name = string(),
+  submission_period = string(),
+  allocation_transfer_agency_identifier_code = string(),
+  agency_identifier_code = string(),
+  beginning_period_of_availability = double(),
+  ending_period_of_availability = double(),
+  availability_type_code = string(),
+  main_account_code = string(),
+  sub_account_code = string(),
+  treasury_account_symbol = string(),
+  treasury_account_name = string(),
+  agency_identifier_name = string(),
+  allocation_transfer_agency_identifier_name = string(),
+  budget_function = string(),
+  budget_subfunction = string(),
+  federal_account_symbol = string(),
+  federal_account_name = string(),
+  program_activity_code = string(),
+  program_activity_name = string(),
+  object_class_code = double(),
+  object_class_name = string(),
+  direct_or_reimbursable_funding_source = string(),
+  disaster_emergency_fund_code = string(),
+  disaster_emergency_fund_name = string(),
+  transaction_obligated_amount = double(),
+  gross_outlay_amount_FYB_to_period_end = double(),
+  USSGL487200_downward_adj_prior_year_prepaid_undeliv_order_oblig = double(),
+  USSGL497200_downward_adj_of_prior_year_paid_deliv_orders_oblig = double(),
+  award_unique_key = string(),
+  award_id_piid = string(),
+  parent_award_id_piid = string(),
+  award_id_fain = string(),
+  award_id_uri = string(),
+  award_base_action_date = date64(),
+  award_base_action_date_fiscal_year = double(),
+  award_latest_action_date = date64(),
+  award_latest_action_date_fiscal_year = double(),
+  period_of_performance_start_date = date64(),
+  period_of_performance_current_end_date = date64(),
+  ordering_period_end_date = date64(),
+  award_type_code = string(),
+  award_type = string(),
+  idv_type_code = string(),
+  idv_type = string(),
+  prime_award_base_transaction_description = string(),
+  awarding_agency_code = string(),
+  awarding_agency_name = string(),
+  awarding_subagency_code = string(),
+  awarding_subagency_name = string(),
+  awarding_office_code = string(),
+  awarding_office_name = string(),
+  funding_agency_code = string(),
+  funding_agency_name = string(),
+  funding_sub_agency_code = string(),
+  funding_sub_agency_name = string(),
+  funding_office_code = string(),
+  funding_office_name = string(),
+  recipient_uei = string(),
+  recipient_duns = string(),
+  recipient_name = string(),
+  recipient_parent_uei = string(),
+  recipient_parent_duns = string(),
+  recipient_parent_name = string(),
+  recipient_country = string(),
+  recipient_state = string(),
+  recipient_county = string(),
+  recipient_city = string(),
+  recipient_congressional_district = string(),
+  recipient_zip_code = string(),
+  primary_place_of_performance_country = string(),
+  primary_place_of_performance_state = string(),
+  primary_place_of_performance_county = string(),
+  primary_place_of_performance_congressional_district = string(),
+  primary_place_of_performance_zip_code = string(),
+  cfda_number = double(),
+  cfda_title = string(),
+  product_or_service_code = string(),
+  product_or_service_code_description = string(),
+  naics_code = double(),
+  naics_description = string(),
+  national_interest_action_code = string(),
+  national_interest_action = string(),
+  usaspending_permalink = string(),
+  last_modified_date = date64()
+)
+
+# Import Data ----
+df <- open_dataset(
+  "_dummy_data", 
+  format = "csv",
+  skip_rows = 1,
+  schema = schema_fix
+)
+```
+
+It's possible to do all the computations that we need to extract the information we want from here, including who the top recipients are, the congressional districts that received the most aid, award breakdowns by legislation, and so on. Still, I want to present this databse in a format that's easy and usable to the general public, which is going to require some:
+
+## Data Wrangling 
+
+Even though there are a total of 85 columns, the majority of them are metadata pulled from other agencies that we don't need. In terms of columns that need to be inspected, those include (with descriptions):
+
+* `owning_agency_name`: The agency the award comes from. 
+* `submission_period`: The year and month the award entry was submitted to usaspending.gov.
+* `beginning_period_of_availability`: The year the award was first available.
+* `ending_period_of_avaliability`: The year the award expires. 
+* `treasury_account_name`: The program name along with the subagency name.
+* `budget_function`: General description of the award. 
+* `budget_subfunction`: Slightly more specific description of the award.
+* `program_activity_name`: Name of the program.
+* `direct_or_reimbursable_funding_source`: 
+* `disaster_emergency_fund_name`: CARES, ARPA, etc.
+* `transaction_obligated_amount`: The amount the recipient was obligated to. 
+* `gross_outlay` and `USSGL` columns: Click [here]() for more details. 
+* `award_type`: Whether the award was a grant, loan, contract, etc.
+* `prime_award_base_transaction_description`: A more specific description of what the award is trying to accomplish. 
+* `award_office_name`: Office name from agency.
+* `recipient_name`: Company who received the award. 
+* `recipient_parent_name`: Parent of the recipient, if available. 
+* `recipient_country/state/county/city/cd/zip_code`: All should be self explanatory. It should be noted that these represent the *facility* that received the award, and not the recipients *headquarters*. 
+* `cfda_title`: CFDA program name. 
+* `usaspending_permalink`: Source for award data. 
+* `last_modified_date`: Last time the entry was modified. 
+
+All of these columns are going to have to be dealt with differently, so I'll go through them one-by-one.
+
+### Preliminary Glance
+
+Before we do that, let's take a quick look to make sure there are no duplicates in the dataset. 
+
+```{r, eval=FALSE}
+df %>%
+  distinct() 
+```
+
+When using arrow, you have to call `dplyr::collect` to get the results of the query, otherwise nothing will be collected. 
+
+Next, let's see how many NAs there are in total to get an idea about how we might want to deal with them later on. 
+
+```{r, eval=FALSE}
+df %>% summarise(across(everything(), ~ sum(is.na(.)))) %>% collect()
+```
+
+---
+
+The rest of this post will just be me transforming the data into a usable format. My next post will be converting it into a `PostgreSQL` database, and after that, we'll actually analyze the data by creating some cool ass charts. Stay tuned. 
+
+## Submission Period 
+
+These columns are written in the style of "FY2020P11," where "FY" represents fiscal year and "P" represents the month. Representing this amount as "2020/11" not only is easier to read, but will for simple computations because its formatted as a proper date. 
+
+Using `dplyr` and `gsub` can easily replace the characters to transform the format into "YYYY-MM," and `lubridate` can convert it the column into `datetime` type.  
+
+```{r, eval=FALSE}
+df <- df %>%
+  mutate(submission_period = gsub("FY", "", as.character(submission_period))) %>% # Replace FY with blank space
+  mutate(submission_period = gsub("P", "-", as.character(submission_period))) %>% # Replace P with -
+  mutate(submission_period = lubridate::ym(submission_period)) %>% # Convert into datetime
+```
+
+## Award Types 
+
+There are several different award types within our dataset. We can view them all using `dplyr::summarise`. 
+
+```{r}
+df %>% 
+  group_by(award_type) %>%
+  summarise(count = n()) %>%
+  collect()
+```
+
+There are a few - what I can only assume, anyways - errors with some award types. Out of 100+ million rows, 20 of them have the type "DO," and exactly one award has the type "DCA." Out of curiosity, I had to know what that one record was. 
+
+```{r, eval=FALSE}
+dca_award <- df %>% 
+  filter(award_type == "DCA") %>% 
+  collect()
+```
+
+It was "awarded" to the National Academy of Sciences of the District of Columbia for the amount of -\$16,830.09 with the description of "IGF::CL::IGF PROFESSIONAL SERVICES ARE REQUESTED BY FIMA, OPPA AND ICPD TO ASSIST THE GOVERNEMENT IN COMMUNITY RESILIENCE." I like the idea of assisting the "government in community resilience" by withdrawing award funds, but anyways:
+
+The discrepancies between grants and loans are important to differentiate from, so we want to keep them. You can find exact definition at the [Data Dictionary at usaspending.gov](https://www.usaspending.gov/data-dictionary), but to describe them in layman terms: 
+
+* **Block Grant (A)**: Grants that can be used at the recipient's discretion. 
+* **Formula Grant (A)**: Grants that have been awarded based on a distribution formula for activities of a "continuing nature."  
+* 
+
+```{r, eval=FALSE}
+df %>%
+  mutate(
+    award_type = case_when(
+      award_type == "DIRECT LOAN (E)" ~ "Loan",
+      award_type == "GUARANTEED/INSURED LOAN (F)" ~ "Loan",
+      award_type == "DIRECT PAYMENT FOR SPECIFIED USE, AS A SUBSIDY OR OTHER NON-REIMBURSABLE DIRECT FINANCIAL AID (C)" ~ "Grant",
+      award_type == "PURCHASE ORDER" ~ "Contract",
+      award_type == "DEFINITIVE CONTRACT" ~ "Contract",
+      award_type == "PROJECT GRANT (B)" ~ "Grant",
+      award_type == "COOPERATIVE AGREEMENT (B)" ~ "Grant",
+      award_type == "FORMULA GRANT (A)" ~ "Grant",
+      award_type == "BLOCK GRANT (A)" ~ "Grant",
+      award_type == "DELIVERY ORDER" ~ "Contract",
+      award_type == "DIRECT PAYMENT WITH UNRESTRICTED USE (RETIREMENT, PENSION, VETERANS BENEFITS, ETC.) (D)" ~ "Grant",
+      award_type == "BPA CALL" ~ "Contract",
+      award_type == "OTHER REIMBURSABLE, CONTINGENT, INTANGIBLE, OR INDIRECT FINANCIAL ASSISTANCE" ~ "Other",
+      award_type == "DO" ~ "Other",
+      award_type == "DCA" ~ "Other"
+    ),
+    award_subtype = case_when(
+      award_type == "DIRECT LOAN (E)" ~ "Direct",
+      award_type == "GUARANTEED/INSURED LOAN (F)" ~ "Insured",
+      award_type == "DIRECT PAYMENT FOR SPECIFIED USE, AS A SUBSIDY OR OTHER NON-REIMBURSABLE DIRECT FINANCIAL AID (C)" ~ "Specified Use",
+      award_type == "PURCHASE ORDER" ~ "Purchase",
+      award_type == "DEFINITIVE CONTRACT" ~ "Definitive",
+      award_type == "PROJECT GRANT (B)" ~ "Project",
+      award_type == "COOPERATIVE AGREEMENT (B)" ~ "Cooperative Agreement",
+      award_type == "FORMULA GRANT (A)" ~ "Formula",
+      award_type == "BLOCK GRANT (A)" ~ "Block",
+      award_type == "DELIVERY ORDER" ~ "Delivery Order",
+      award_type == "DIRECT PAYMENT WITH UNRESTRICTED USE (RETIREMENT, PENSION, VETERANS BENEFITS, ETC.) (D)" ~ "Unspecified Use",
+      award_type == "BPA CALL" ~ "BPA",
+      award_type == "OTHER REIMBURSABLE, CONTINGENT, INTANGIBLE, OR INDIRECT FINANCIAL ASSISTANCE" ~ "Other",
+      award_type == "DO" ~ "Other",
+      award_type == "DCA" ~ "Other"
+    )
+  )
+```
+
+The more concerning part is the number of NA values, which is essential to understanding award amounts. 
+
+Loans and grants are broken down into different 
+
+## Outlay and USSGL Amounts 
+
+As mentioned before, award recipients may not use all of their funds at once. Loans are sometimes paid back with interest, meaning some are "profitable" for the government. Others are forgiven. 
+
+The dataset includes a `transaction_obligated_amount`, which is the amount the recipient is entitled to, while the other columns represent incremental updates to each unique reward key. According to the directions, `transaction_obligated_amount` should be summed by itself, while the other three columns should be summed separately. Once again, `dplyr::summarise` makes this task simple. 
+
+```{r, eval=FALSE}
+df %>%
+  group_by(award_unique_key) %>%
+  summarise(
+    award_amount_obligated = sum(transaction_obligated_amount),
+    award_amount_utilized = sum(gross_outlay_amount_FYB_to_period_end, na.rm = TRUE) + sum(USSGL487200_downward_adj_prior_year_prepaid_undeliv_order_oblig, na.rm = TRUE) + sum(USSGL497200_downward_adj_of_prior_year_paid_deliv_orders_oblig, na.rm = TRUE)
+  )
+```
+
+## Base Action Dates 
+
+These refer to the dates that each award entry was entered. We're condensing these rows down, so we want the earliest base date along with the latest base date. Date types with `arrow` are quite intuitive to use; simply using `min` and `max` will solve this problem.
+
+```{r, eval=FALSE}
+df %>%
+  group_by(award_unique_key) %>%
+  summarise(
+    first_action_date = min(award_base_action_date),
+    last_action_date = max(award_latest_action_date),
+  )
+```
+
+## Zip Codes
+
+**What the hell is this, usaspending.gov**? 
+
+Zip codes are notoriously one of the most annoying things to deal with in data, and they didn't even *try* to use any sort of standard for this column. Most zip codes are listed as five digits, but a few are three, nine, some are even seven. Nine digit codes are fine, and so are five, but codes in-between need leading 0s. However, zip codes *under* five also need leading 0s, but only until it reaches a standard five digit code, because increasing all the way to nine wouldn't be intuitive for use (for example, converting a 123 zip into 000000123 doesn't make any sense).
+
+Trying to do this in base `R` would be annoying and inefficient, requiring multiple `ifelse` statements, but various packages have been created to tackle our very issue. 
+
+
+
+
+
+
+

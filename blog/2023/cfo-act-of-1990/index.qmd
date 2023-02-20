@@ -1,0 +1,42 @@
+---
+title: "Explaining the CFO Act of 1990"
+description: ""
+author: "Nathan States"
+date: "02/18/2023"
+---
+
+There's a good chance that if you've heard of this Act already, you read it in relation to the Department of Defense being unable to "pass" an audit. I want to give a more detailed breakdown about the Pentagon's financial struggles, but it makes more sense to break them down into different sections. 
+
+## CFO Act of 1990 
+
+The Government Accountability Office (GAO) has a really good [report](https://www.gao.gov/products/gao-20-566) that I recommend reading if you want a more in-depth explanation. The only problem is that it's 140 pages long, so here's a paraphrased version of it. 
+
+And if you want to look at a table with pretty colors, skip [here](here). 
+
+-blah-
+
+## Results 
+
+-table-
+
+## Why Care? 
+
+I hope some people got a chuckle reading the footnotes on the table. Arthur Andersen was the firm responsible for "auditing" *Enron*, once the sixth largest corporation in the United States. They quickly collapsed once it was discovered their profits were largely the result of accounting fraud; Arthur Andersen would later be indicted by the DOJ for their (alleged) complicity. Given their conduct in that case, it really shouldn't be a surprise their work in other areas was similarly lacking.  
+
+This does raise some questions. Why did NASA struggle so much while other agencies didn't? Departments like HHS have budgets ten times over that of NASA, even if we were to account for discretionary vs. mandatory budgeting, yet those departments have received unmodified opinions for decades. For that matter, why do several other departments, like DOS and HUD, go years passing audits, only to find themselves failing multiple in a row? 
+
+If the answer is the same reason why Arthur Andersen failed to properly inspect Enron, then the question of auditor independence should be discussed. The same auditors who are providing services to some of the largest government contractors are *also* the same ones auditing those government departments in order to improve their financial security. There is a clear conflict of interest that exists in this arrangement. 
+
+However, isn't it conspiratorial to think audit firms are appeasing their clients by purposefully ensuring the financial systems of their buyers are sub-par? Ignoring intent, results collected by the PCAOB (source: [me](051f11)) show that audits of publicly traded companies are regularly conducted improperly, with an average deficiency rate of **over 25%** among the eight largest firms. The PCAOB doesn't review the audits of government departments; that's actually the responsibility of the GAO, though it's far from their primary focus. The audit reviews they've done, especially in regards to the DoD, [have not been glowing](https://www.gao.gov/products/gao-10-163t). 
+
+Over the past two decades, government contracting has increased enormously. There is absolutely no question that government waste, especially in the DoD, [exists](https://www.npr.org/2011/08/31/140092937/panel-finds-widespread-waste-in-wartime-contracts). It exists outside of it, but the area that should be receiving the most attention is getting the least. Anyone who is genuinely concerned with government waste and isn't starting with the DoD and/or government contracting is missing the big picture. 
+
+## Some Other Stuff  
+
+Receiving unmodified opinions doesn't mean a company's financials are entirely in order. 
+
+-chart- 
+
+Auditors will classify problems into different categories, including ___, material weaknesses, and significant deficiencies. The chart only shows material weaknesses, which indicate a deficiency/combination of deficiencies that *could* potentially cause a financial misstatement. Audit opinions only represent the *opinion* that the financial statements are presented fairly, not whether there's a possibility they aren't. 
+
+When it comes to the DoD, they keep finding problems faster than they can fix them. FY 2022 was the sixth straight year the department reported the same or more material weaknesses. In some ways, it's a good thing. Acknowledging problems is the step to fixing them, but how long will it take to actually start fixing them remains to be seen. 

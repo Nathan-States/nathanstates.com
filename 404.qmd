@@ -1,0 +1,9 @@
+---
+title: "404"
+---
+
+The page requested cannot be found.
+
+Chances are, the file was renamed, or moved somewhere else. Check my [posts](posts.qmd) or [projects](projects.qmd) to see if it's there. You can also try the search bar in the top right.
+
+If you still can't find what you're looking for, [contact](contact.qmd) me.

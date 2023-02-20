@@ -1,0 +1,51 @@
+/* Reactable Table Style */
+
+@font-face {
+  font-family: '1955';
+  font-style: normal;
+  font-weight: 425;
+  src: url("fonts/1955-Regular.woff2") format("woff2"),
+       url("fonts/1955-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: '1955';
+  font-style: normal;
+  font-weight: 375;
+  src: url("fonts/1955-Light.woff2") format("woff2"),
+       url("fonts/1955-Light.woff") format("woff");
+}
+
+.style {
+
+}
+
+.tableStyle
+
+.headerStyle
+
+.groupHeaderStyle
+
+.tableBodyStyle
+
+.rowGroupStyle
+
+.rowStyle
+
+.rowStripedStyle
+
+.rowHighlightStyle
+
+.cellStyle
+
+.footerStyle
+
+.inputStyle
+
+.fitlerInputStyle
+
+.searchInputStyle
+
+.selectStyle
+
+.paginationStyle

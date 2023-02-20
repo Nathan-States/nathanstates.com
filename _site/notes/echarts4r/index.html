@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nathan States">
+<meta name="dcterms.date" content="2023-01-10">
+<meta name="description" content="Notes on Apache ECharts for R">
+
+<title>Nathan States - echarts4r Cookbook</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<script src="../../site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="../../site_libs/echarts4r-4.8.0/echarts-en.min.js"></script>
+<script src="../../site_libs/echarts4r-4.8.0/ecStat.min.js"></script>
+<script src="../../site_libs/echarts4r-4.8.0/dataTool.min.js"></script>
+<script src="../../site_libs/echarts4r-binding-0.4.4/echarts4r.js"></script>
+<script src="../../site_libs/dark-mushroom-1.0.0/dark-mushroom.js"></script>
+
+
+<link rel="stylesheet" href="../../assets/styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">nathan<span class="icon-line"></span>states_</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html">
+ <span class="menu-text">Projects</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../archives.html">
+ <span class="menu-text">Archives</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../notes.html">
+ <span class="menu-text">Notes</span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-color-scheme-toggle nav-link" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#intro-thoughts" id="toc-intro-thoughts" class="nav-link active" data-scroll-target="#intro-thoughts">0. Intro Thoughts</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">1. Installation</a>
+  <ul class="collapse">
+  <li><a href="#a.-stable-install" id="toc-a.-stable-install" class="nav-link" data-scroll-target="#a.-stable-install">1.A. Stable Install</a></li>
+  <li><a href="#b.-developmental-build" id="toc-b.-developmental-build" class="nav-link" data-scroll-target="#b.-developmental-build">1.B. Developmental Build</a></li>
+  <li><a href="#c.-complimentary-packages" id="toc-c.-complimentary-packages" class="nav-link" data-scroll-target="#c.-complimentary-packages">1.C. Complimentary Packages</a></li>
+  <li><a href="#d.-loading-packages" id="toc-d.-loading-packages" class="nav-link" data-scroll-target="#d.-loading-packages">1.D. Loading Packages</a></li>
+  </ul></li>
+  <li><a href="#basic-charts" id="toc-basic-charts" class="nav-link" data-scroll-target="#basic-charts">2. Basic Charts</a>
+  <ul class="collapse">
+  <li><a href="#a.-column" id="toc-a.-column" class="nav-link" data-scroll-target="#a.-column">2.A. Column</a></li>
+  <li><a href="#b.-bar-chart" id="toc-b.-bar-chart" class="nav-link" data-scroll-target="#b.-bar-chart">2.B. Bar Chart</a></li>
+  <li><a href="#c.-scatter-chart" id="toc-c.-scatter-chart" class="nav-link" data-scroll-target="#c.-scatter-chart">2.C. Scatter Chart</a></li>
+  <li><a href="#heatmap" id="toc-heatmap" class="nav-link" data-scroll-target="#heatmap">2. . Heatmap</a></li>
+  <li><a href="#candlestick" id="toc-candlestick" class="nav-link" data-scroll-target="#candlestick">2. . Candlestick</a></li>
+  <li><a href="#treemap" id="toc-treemap" class="nav-link" data-scroll-target="#treemap">2. . Treemap</a></li>
+  <li><a href="#calendars" id="toc-calendars" class="nav-link" data-scroll-target="#calendars">2. . Calendars</a></li>
+  <li><a href="#j.-pie-donut-chart" id="toc-j.-pie-donut-chart" class="nav-link" data-scroll-target="#j.-pie-donut-chart">2.J. Pie / Donut Chart</a></li>
+  </ul></li>
+  <li><a href="#theme-customizations" id="toc-theme-customizations" class="nav-link" data-scroll-target="#theme-customizations">3. Theme Customizations</a>
+  <ul class="collapse">
+  <li><a href="#a.-set-common-theme" id="toc-a.-set-common-theme" class="nav-link" data-scroll-target="#a.-set-common-theme">3.A. Set Common Theme</a></li>
+  <li><a href="#b.-tooltip-theme" id="toc-b.-tooltip-theme" class="nav-link" data-scroll-target="#b.-tooltip-theme">3.B. Tooltip Theme</a></li>
+  <li><a href="#c.-remove-legend" id="toc-c.-remove-legend" class="nav-link" data-scroll-target="#c.-remove-legend">3.C. Remove Legend</a></li>
+  </ul></li>
+  <li><a href="#tooltips" id="toc-tooltips" class="nav-link" data-scroll-target="#tooltips">4. Tooltips</a>
+  <ul class="collapse">
+  <li><a href="#c.-default-tooltip-formatter" id="toc-c.-default-tooltip-formatter" class="nav-link" data-scroll-target="#c.-default-tooltip-formatter">3.C. Default Tooltip Formatter</a></li>
+  </ul></li>
+  <li><a href="#maps" id="toc-maps" class="nav-link" data-scroll-target="#maps">5. Maps</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">echarts4r Cookbook</h1>
+</div>
+
+<div>
+  <div class="description">
+    Notes on Apache ECharts for R
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Nathan States </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 10, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="intro-thoughts" class="level1">
+<h1>0. Intro Thoughts</h1>
+<p>There’s a ton of different charting libraries in <code>R</code>, with a few of them being interactive. <code>plotly</code> is one of the most popular, having over 2.3k stars on GitHub. <code>highcharter</code> is another such package. With <code>ggiraph</code>, it’s possible to turn <code>ggplot2</code> objects into interactive charts, so there’s quite a selection of tools to choose from.</p>
+<p>Personally, I find <code>echarts4r</code> to be the best out of all of them <strong>specifically</strong> for exploratory data analysis. The charts are easy to create, they look nice out of the box, and it’s quick and easy to gain insight into your data. The interactive element makes identifying outliers or other specific values very easy. Compared to other packages, <code>plotly</code> is way too ugly, <code>highcharter</code> requires a license for paid applications, and <code>ggiraph</code> is too time consuming for regular charts. <code>echarts4r</code> offers a nice solution to all these problems (though if you need a deeper statistical breakdown, I’d recommend <code>ggstatsplot</code>).</p>
+<p>There is a noticeable limit on customization, though. I’d still recommend <code>ggplot2</code> for high quality static charts, and D3 for more advanced interactive ones.</p>
+<p><code>echarts4r</code> is a wrapper for the JS library developed by Apache Software Foundation, meaning changes in the original code will cause changes in this package, regardless of if <code>echarts4r</code> itself is updated. Apache ECharts is listed as one of Apache’s top projects, so hopefully, we see even more improvements in the future.</p>
+<p><img src="thumbnail.png" class="img-fluid"></p>
+</section>
+<section id="installation" class="level1">
+<h1>1. Installation</h1>
+<section id="a.-stable-install" class="level2">
+<h2 class="anchored" data-anchor-id="a.-stable-install">1.A. Stable Install</h2>
+<p><a href="https://www.google.com/search?client=firefox-b-1-d&amp;q=echarts4r+github+">Github Page</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"echarts4r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b.-developmental-build" class="level2">
+<h2 class="anchored" data-anchor-id="b.-developmental-build">1.B. Developmental Build</h2>
+<p>Requites the <code>remotes</code> package to install.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"JohnCoene/echarts4r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="c.-complimentary-packages" class="level2">
+<h2 class="anchored" data-anchor-id="c.-complimentary-packages">1.C. Complimentary Packages</h2>
+<p>Neither of these packages have been updated in years, but are still usable in their current formats. They allow for maps and image assets to be used while charting.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'JohnCoene/echarts4r.assets'</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'JohnCoene/echarts4r.maps'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="d.-loading-packages" class="level2">
+<h2 class="anchored" data-anchor-id="d.-loading-packages">1.D. Loading Packages</h2>
+<p>Also loading <code>dplyr</code> for data manipulation and <code>palmerpenguins</code> for dummy data.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(echarts4r)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(echarts4r.maps)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">e_common</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">font_family =</span> <span class="st">"Georgia"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="st">"dark-mushroom"</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="basic-charts" class="level1">
+<h1>2. Basic Charts</h1>
+<section id="a.-column" class="level2">
+<h2 class="anchored" data-anchor-id="a.-column">2.A. Column</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">average_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_chart</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_bar</span>(average_mass) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>(<span class="at">trigger =</span> <span class="st">" axis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-95c7ae23bb232a7b84df" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-95c7ae23bb232a7b84df">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true}],"xAxis":[{"data":["Biscoe","Dream","Torgersen"],"type":"category","boundaryGap":true}],"legend":{"data":["average_mass"]},"series":[{"data":[{"value":["Biscoe","4716.018"]},{"value":["Dream","3712.903"]},{"value":["Torgersen","3706.373"]}],"name":"average_mass","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"}],"tooltip":{"trigger":" axis"},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="b.-bar-chart" class="level2">
+<h2 class="anchored" data-anchor-id="b.-bar-chart">2.B. Bar Chart</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">average_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_chart</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_bar</span>(average_mass) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_flip_coords</span>() <span class="sc">|&gt;</span> <span class="co"># THIS LINE OF CODE # </span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-d81a5111dd2913c54cd7" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d81a5111dd2913c54cd7">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"xAxis":[{"show":true}],"yAxis":[{"data":["Biscoe","Dream","Torgersen"],"type":"category","boundaryGap":true}],"legend":{"data":["average_mass"]},"series":[{"data":[{"value":["4716.018","Biscoe"]},{"value":["3712.903","Dream"]},{"value":["3706.373","Torgersen"]}],"name":"average_mass","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"}],"tooltip":{"trigger":"item"},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="c.-scatter-chart" class="level2">
+<h2 class="anchored" data-anchor-id="c.-scatter-chart">2.C. Scatter Chart</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(species) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_chart</span>(bill_length_mm) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_scatter</span>(bill_depth_mm) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-879ff8a40325f3afa3a1" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-879ff8a40325f3afa3a1">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true}],"xAxis":[{"type":"value"}],"legend":{"data":["Adelie","Chinstrap","Gentoo"]},"series":[{"data":[{"value":[32.1,15.5]},{"value":[33.1,16.1]},{"value":[33.5,19]},{"value":[34,17.1]},{"value":[34.1,18.1]},{"value":[34.4,18.4]},{"value":[34.5,18.1]},{"value":[34.6,21.1]},{"value":[34.6,17.2]},{"value":[35,17.9]},{"value":[35,17.9]},{"value":[35.1,19.4]},{"value":[35.2,15.9]},{"value":[35.3,18.9]},{"value":[35.5,16.2]},{"value":[35.5,17.5]},{"value":[35.6,17.5]},{"value":[35.7,16.9]},{"value":[35.7,18]},{"value":[35.7,17]},{"value":[35.9,19.2]},{"value":[35.9,16.6]},{"value":[36,18.5]},{"value":[36,17.9]},{"value":[36,17.8]},{"value":[36,17.1]},{"value":[36.2,16.1]},{"value":[36.2,17.3]},{"value":[36.2,17.2]},{"value":[36.3,19.5]},{"value":[36.4,17]},{"value":[36.4,17.1]},{"value":[36.5,18]},{"value":[36.5,16.6]},{"value":[36.6,17.8]},{"value":[36.6,18.4]},{"value":[36.7,19.3]},{"value":[36.7,18.8]},{"value":[36.8,18.5]},{"value":[36.9,18.6]},{"value":[37,16.9]},{"value":[37,16.5]},{"value":[37.2,18.1]},{"value":[37.2,19.4]},{"value":[37.3,17.8]},{"value":[37.3,20.5]},{"value":[37.3,16.8]},{"value":[37.5,18.9]},{"value":[37.5,18.5]},{"value":[37.6,19.3]},{"value":[37.6,19.1]},{"value":[37.6,17]},{"value":[37.7,18.7]},{"value":[37.7,16]},{"value":[37.7,19.8]},{"value":[37.8,17.1]},{"value":[37.8,17.3]},{"value":[37.8,18.3]},{"value":[37.8,20]},{"value":[37.8,18.1]},{"value":[37.9,18.6]},{"value":[37.9,18.6]},{"value":[38.1,18.6]},{"value":[38.1,17]},{"value":[38.1,16.5]},{"value":[38.1,17.6]},{"value":[38.2,18.1]},{"value":[38.2,20]},{"value":[38.3,19.2]},{"value":[38.5,17.9]},{"value":[38.6,21.2]},{"value":[38.6,17.2]},{"value":[38.6,17]},{"value":[38.7,19]},{"value":[38.8,17.2]},{"value":[38.8,20]},{"value":[38.8,17.6]},{"value":[38.9,17.8]},{"value":[38.9,18.8]},{"value":[39,17.5]},{"value":[39,17.1]},{"value":[39,18.7]},{"value":[39.1,18.7]},{"value":[39.2,19.6]},{"value":[39.2,21.1]},{"value":[39.2,18.6]},{"value":[39.3,20.6]},{"value":[39.5,17.4]},{"value":[39.5,16.7]},{"value":[39.5,17.8]},{"value":[39.6,18.8]},{"value":[39.6,17.7]},{"value":[39.6,17.2]},{"value":[39.6,18.1]},{"value":[39.6,20.7]},{"value":[39.7,18.4]},{"value":[39.7,18.9]},{"value":[39.7,17.7]},{"value":[39.7,17.9]},{"value":[39.8,19.1]},{"value":[40.1,18.9]},{"value":[40.2,17]},{"value":[40.2,20.1]},{"value":[40.2,17.1]},{"value":[40.3,18]},{"value":[40.3,18.5]},{"value":[40.5,17.9]},{"value":[40.5,18.9]},{"value":[40.6,18.6]},{"value":[40.6,18.8]},{"value":[40.6,19]},{"value":[40.6,17.2]},{"value":[40.7,17]},{"value":[40.8,18.4]},{"value":[40.8,18.9]},{"value":[40.9,18.9]},{"value":[40.9,16.8]},{"value":[41,20]},{"value":[41.1,17.6]},{"value":[41.1,19]},{"value":[41.1,18.2]},{"value":[41.1,19.1]},{"value":[41.1,18.1]},{"value":[41.1,18.6]},{"value":[41.1,17.5]},{"value":[41.3,21.1]},{"value":[41.3,20.3]},{"value":[41.4,18.6]},{"value":[41.4,18.5]},{"value":[41.5,18.3]},{"value":[41.5,18.5]},{"value":[41.6,18]},{"value":[41.8,19.4]},{"value":[42,20.2]},{"value":[42,19.5]},{"value":[42.1,19.1]},{"value":[42.2,18.5]},{"value":[42.2,19.5]},{"value":[42.3,21.2]},{"value":[42.5,20.7]},{"value":[42.7,18.3]},{"value":[42.8,18.5]},{"value":[42.9,17.6]},{"value":[43.1,19.2]},{"value":[43.2,18.5]},{"value":[43.2,19]},{"value":[44.1,19.7]},{"value":[44.1,18]},{"value":[45.6,20.3]},{"value":[45.8,18.9]},{"value":[46,21.5]},{"value":[null,null]}],"name":"Adelie","type":"scatter","symbol":null,"coordinateSystem":"cartesian2d","yAxisIndex":0,"xAxisIndex":0,"symbolSize":3},{"data":[{"value":[40.9,16.6]},{"value":[42.4,17.3]},{"value":[42.5,16.7]},{"value":[42.5,17.3]},{"value":[43.2,16.6]},{"value":[43.5,18.1]},{"value":[45.2,17.8]},{"value":[45.2,16.6]},{"value":[45.4,18.7]},{"value":[45.5,17]},{"value":[45.6,19.4]},{"value":[45.7,17.3]},{"value":[45.7,17]},{"value":[45.9,17.1]},{"value":[46,18.9]},{"value":[46.1,18.2]},{"value":[46.2,17.5]},{"value":[46.4,18.6]},{"value":[46.4,17.8]},{"value":[46.5,17.9]},{"value":[46.6,17.8]},{"value":[46.7,17.9]},{"value":[46.8,16.5]},{"value":[46.9,16.6]},{"value":[47,17.3]},{"value":[47.5,16.8]},{"value":[47.6,18.3]},{"value":[48.1,16.4]},{"value":[48.5,17.5]},{"value":[49,19.5]},{"value":[49,19.6]},{"value":[49.2,18.2]},{"value":[49.3,19.9]},{"value":[49.5,19]},{"value":[49.6,18.2]},{"value":[49.7,18.6]},{"value":[49.8,17.3]},{"value":[50,19.5]},{"value":[50.1,17.9]},{"value":[50.2,18.8]},{"value":[50.2,18.7]},{"value":[50.3,20]},{"value":[50.5,19.6]},{"value":[50.5,18.4]},{"value":[50.6,19.4]},{"value":[50.7,19.7]},{"value":[50.8,18.5]},{"value":[50.8,19]},{"value":[50.9,19.1]},{"value":[50.9,17.9]},{"value":[51,18.8]},{"value":[51.3,19.2]},{"value":[51.3,18.2]},{"value":[51.3,19.9]},{"value":[51.4,19]},{"value":[51.5,18.7]},{"value":[51.7,20.3]},{"value":[51.9,19.5]},{"value":[52,18.1]},{"value":[52,19]},{"value":[52,20.7]},{"value":[52.2,18.8]},{"value":[52.7,19.8]},{"value":[52.8,20]},{"value":[53.5,19.9]},{"value":[54.2,20.8]},{"value":[55.8,19.8]},{"value":[58,17.8]}],"name":"Chinstrap","type":"scatter","symbol":null,"coordinateSystem":"cartesian2d","yAxisIndex":0,"xAxisIndex":0,"symbolSize":3},{"data":[{"value":[40.9,13.7]},{"value":[41.7,14.7]},{"value":[42,13.5]},{"value":[42.6,13.7]},{"value":[42.7,13.7]},{"value":[42.8,14.2]},{"value":[42.9,13.1]},{"value":[43.2,14.5]},{"value":[43.3,13.4]},{"value":[43.3,14]},{"value":[43.4,14.4]},{"value":[43.5,14.2]},{"value":[43.5,15.2]},{"value":[43.6,13.9]},{"value":[43.8,13.9]},{"value":[44,13.6]},{"value":[44.4,17.3]},{"value":[44.5,14.3]},{"value":[44.5,14.7]},{"value":[44.5,15.7]},{"value":[44.9,13.3]},{"value":[44.9,13.8]},{"value":[45,15.4]},{"value":[45.1,14.5]},{"value":[45.1,14.5]},{"value":[45.1,14.4]},{"value":[45.2,15.8]},{"value":[45.2,13.8]},{"value":[45.2,16.4]},{"value":[45.2,14.8]},{"value":[45.3,13.7]},{"value":[45.3,13.8]},{"value":[45.4,14.6]},{"value":[45.5,13.7]},{"value":[45.5,13.9]},{"value":[45.5,15]},{"value":[45.5,14.5]},{"value":[45.7,13.9]},{"value":[45.8,14.6]},{"value":[45.8,14.2]},{"value":[46.1,13.2]},{"value":[46.1,15.1]},{"value":[46.2,14.5]},{"value":[46.2,14.9]},{"value":[46.2,14.4]},{"value":[46.2,14.1]},{"value":[46.3,15.8]},{"value":[46.4,15.6]},{"value":[46.4,15]},{"value":[46.5,13.5]},{"value":[46.5,14.5]},{"value":[46.5,14.4]},{"value":[46.5,14.8]},{"value":[46.6,14.2]},{"value":[46.7,15.3]},{"value":[46.8,15.4]},{"value":[46.8,16.1]},{"value":[46.8,14.3]},{"value":[46.9,14.6]},{"value":[47.2,15.5]},{"value":[47.2,13.7]},{"value":[47.3,15.3]},{"value":[47.3,13.8]},{"value":[47.4,14.6]},{"value":[47.5,14.2]},{"value":[47.5,14]},{"value":[47.5,15]},{"value":[47.6,14.5]},{"value":[47.7,15]},{"value":[47.8,15]},{"value":[48.1,15.1]},{"value":[48.2,14.3]},{"value":[48.2,15.6]},{"value":[48.4,14.6]},{"value":[48.4,16.3]},{"value":[48.4,14.4]},{"value":[48.5,14.1]},{"value":[48.5,15]},{"value":[48.6,16]},{"value":[48.7,14.1]},{"value":[48.7,15.1]},{"value":[48.7,15.7]},{"value":[48.8,16.2]},{"value":[49,16.1]},{"value":[49.1,14.8]},{"value":[49.1,14.5]},{"value":[49.1,15]},{"value":[49.2,15.2]},{"value":[49.3,15.7]},{"value":[49.4,15.8]},{"value":[49.5,16.2]},{"value":[49.5,16.1]},{"value":[49.6,16]},{"value":[49.6,15]},{"value":[49.8,16.8]},{"value":[49.8,15.9]},{"value":[49.9,16.1]},{"value":[50,16.3]},{"value":[50,15.2]},{"value":[50,15.3]},{"value":[50,15.9]},{"value":[50.1,15]},{"value":[50.2,14.3]},{"value":[50.4,15.3]},{"value":[50.4,15.7]},{"value":[50.5,15.9]},{"value":[50.5,15.9]},{"value":[50.5,15.2]},{"value":[50.7,15]},{"value":[50.8,17.3]},{"value":[50.8,15.7]},{"value":[51.1,16.3]},{"value":[51.1,16.5]},{"value":[51.3,14.2]},{"value":[51.5,16.3]},{"value":[52.1,17]},{"value":[52.2,17.1]},{"value":[52.5,15.6]},{"value":[53.4,15.8]},{"value":[54.3,15.7]},{"value":[55.1,16]},{"value":[55.9,17]},{"value":[59.6,17]},{"value":[null,null]}],"name":"Gentoo","type":"scatter","symbol":null,"coordinateSystem":"cartesian2d","yAxisIndex":0,"xAxisIndex":0,"symbolSize":3}],"tooltip":{"trigger":"item"},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="heatmap" class="level2">
+<h2 class="anchored" data-anchor-id="heatmap">2. . Heatmap</h2>
+</section>
+<section id="candlestick" class="level2">
+<h2 class="anchored" data-anchor-id="candlestick">2. . Candlestick</h2>
+</section>
+<section id="treemap" class="level2">
+<h2 class="anchored" data-anchor-id="treemap">2. . Treemap</h2>
+</section>
+<section id="calendars" class="level2">
+<h2 class="anchored" data-anchor-id="calendars">2. . Calendars</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">seq.Date</span>(<span class="fu">as.Date</span>(<span class="st">"2017-01-01"</span>), <span class="fu">as.Date</span>(<span class="st">"2018-12-31"</span>), <span class="at">by =</span> <span class="st">"day"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="fu">length</span>(dates), <span class="dv">20</span>, <span class="dv">6</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> dates, <span class="at">values =</span> values)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>year <span class="sc">|&gt;</span> </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_charts</span>(date) <span class="sc">|&gt;</span> </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_calendar</span>(<span class="at">range =</span> <span class="st">"2018"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_heatmap</span>(values, <span class="at">coord_system =</span> <span class="st">"calendar"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_visual_map</span>(<span class="at">max =</span> <span class="dv">30</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_title</span>(<span class="st">"Calendar"</span>, <span class="st">"Heatmap"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-929ae9e41310dfc994b7" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-929ae9e41310dfc994b7">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"calendar":[{"range":"2018"}],"series":[{"data":[{"value":["2017-01-01","22.2603441"]},{"value":["2017-01-02","26.4319628"]},{"value":["2017-01-03","23.5257971"]},{"value":["2017-01-04","10.4286445"]},{"value":["2017-01-05","17.5557697"]},{"value":["2017-01-06","19.9909388"]},{"value":["2017-01-07","25.5278054"]},{"value":["2017-01-08","23.2593294"]},{"value":["2017-01-09","30.5911779"]},{"value":["2017-01-10","19.1926985"]},{"value":["2017-01-11","18.7292906"]},{"value":["2017-01-12","15.8766915"]},{"value":["2017-01-13","30.0586164"]},{"value":["2017-01-14","28.4991716"]},{"value":["2017-01-15","21.5224142"]},{"value":["2017-01-16","26.2156193"]},{"value":["2017-01-17","11.9367400"]},{"value":["2017-01-18","20.0045608"]},{"value":["2017-01-19"," 5.3520794"]},{"value":["2017-01-20","21.2773467"]},{"value":["2017-01-21","22.3323548"]},{"value":["2017-01-22","11.8464019"]},{"value":["2017-01-23","21.6139353"]},{"value":["2017-01-24","10.4477563"]},{"value":["2017-01-25","21.2371640"]},{"value":["2017-01-26","15.5543901"]},{"value":["2017-01-27","22.4761139"]},{"value":["2017-01-28","16.9404714"]},{"value":["2017-01-29","22.7347776"]},{"value":["2017-01-30","26.4356758"]},{"value":["2017-01-31","28.2712871"]},{"value":["2017-02-01","20.6039396"]},{"value":["2017-02-02","21.2575563"]},{"value":["2017-02-03","19.0242832"]},{"value":["2017-02-04","13.3117661"]},{"value":["2017-02-05"," 7.2337966"]},{"value":["2017-02-06","21.0885691"]},{"value":["2017-02-07","14.5551284"]},{"value":["2017-02-08","32.0315659"]},{"value":["2017-02-09","21.3196646"]},{"value":["2017-02-10","16.6671904"]},{"value":["2017-02-11","18.3366928"]},{"value":["2017-02-12","18.5485120"]},{"value":["2017-02-13","25.6955818"]},{"value":["2017-02-14","23.6714709"]},{"value":["2017-02-15","15.0695727"]},{"value":["2017-02-16","22.8423364"]},{"value":["2017-02-17","24.5187869"]},{"value":["2017-02-18","24.0894769"]},{"value":["2017-02-19","19.4283810"]},{"value":["2017-02-20","25.4365700"]},{"value":["2017-02-21","24.3422941"]},{"value":["2017-02-22","20.2238945"]},{"value":["2017-02-23","27.1571567"]},{"value":["2017-02-24","11.7802543"]},{"value":["2017-02-25","20.3139824"]},{"value":["2017-02-26","16.7490654"]},{"value":["2017-02-27","12.3103023"]},{"value":["2017-02-28","15.4838885"]},{"value":["2017-03-01","19.5425048"]},{"value":["2017-03-02","23.0107622"]},{"value":["2017-03-03","20.0045931"]},{"value":["2017-03-04","23.1737820"]},{"value":["2017-03-05","15.1500335"]},{"value":["2017-03-06","19.0626052"]},{"value":["2017-03-07","27.3761857"]},{"value":["2017-03-08","22.0031774"]},{"value":["2017-03-09","21.3104006"]},{"value":["2017-03-10","31.4801639"]},{"value":["2017-03-11","24.8007530"]},{"value":["2017-03-12","20.0106109"]},{"value":["2017-03-13","20.5629018"]},{"value":["2017-03-14","21.3878906"]},{"value":["2017-03-15","20.2478631"]},{"value":["2017-03-16","19.1704267"]},{"value":["2017-03-17","13.2179850"]},{"value":["2017-03-18","15.9037196"]},{"value":["2017-03-19","19.8499359"]},{"value":["2017-03-20","16.0567909"]},{"value":["2017-03-21","21.9036855"]},{"value":["2017-03-22","22.1538432"]},{"value":["2017-03-23","23.5812132"]},{"value":["2017-03-24","18.0212234"]},{"value":["2017-03-25","12.8247791"]},{"value":["2017-03-26","25.2657447"]},{"value":["2017-03-27","26.6923754"]},{"value":["2017-03-28","18.0574047"]},{"value":["2017-03-29","15.6834248"]},{"value":["2017-03-30"," 9.8754661"]},{"value":["2017-03-31","22.8047058"]},{"value":["2017-04-01","21.6876502"]},{"value":["2017-04-02","31.6002279"]},{"value":["2017-04-03","18.9495058"]},{"value":["2017-04-04","19.0511100"]},{"value":["2017-04-05","26.2123402"]},{"value":["2017-04-06","24.9724499"]},{"value":["2017-04-07","12.4316473"]},{"value":["2017-04-08","23.7049709"]},{"value":["2017-04-09","23.1076214"]},{"value":["2017-04-10","16.1183815"]},{"value":["2017-04-11","23.6536988"]},{"value":["2017-04-12","11.8648949"]},{"value":["2017-04-13","24.5180371"]},{"value":["2017-04-14"," 7.0838073"]},{"value":["2017-04-15","24.9180117"]},{"value":["2017-04-16","23.2474979"]},{"value":["2017-04-17","22.2867050"]},{"value":["2017-04-18","31.4620951"]},{"value":["2017-04-19","23.2568807"]},{"value":["2017-04-20","14.0766487"]},{"value":["2017-04-21","19.4674542"]},{"value":["2017-04-22","18.4876586"]},{"value":["2017-04-23","21.2036025"]},{"value":["2017-04-24","21.0047938"]},{"value":["2017-04-25","25.8514679"]},{"value":["2017-04-26","26.5198411"]},{"value":["2017-04-27","21.3446290"]},{"value":["2017-04-28","27.9689930"]},{"value":["2017-04-29","21.2681628"]},{"value":["2017-04-30","24.8003243"]},{"value":["2017-05-01","17.6028311"]},{"value":["2017-05-02","11.7786689"]},{"value":["2017-05-03","18.0843725"]},{"value":["2017-05-04","11.9705377"]},{"value":["2017-05-05","25.0995612"]},{"value":["2017-05-06","17.4928293"]},{"value":["2017-05-07","21.7422709"]},{"value":["2017-05-08","25.4047482"]},{"value":["2017-05-09","28.0713474"]},{"value":["2017-05-10","10.3203543"]},{"value":["2017-05-11","27.0796448"]},{"value":["2017-05-12","23.1442162"]},{"value":["2017-05-13","15.0727228"]},{"value":["2017-05-14","12.8460392"]},{"value":["2017-05-15","16.3223425"]},{"value":["2017-05-16","19.7074629"]},{"value":["2017-05-17","15.7312657"]},{"value":["2017-05-18","11.9921155"]},{"value":["2017-05-19","19.0156052"]},{"value":["2017-05-20","27.7368608"]},{"value":["2017-05-21","25.6054079"]},{"value":["2017-05-22","15.6171922"]},{"value":["2017-05-23","28.0490413"]},{"value":["2017-05-24","18.4926061"]},{"value":["2017-05-25","22.4020181"]},{"value":["2017-05-26","21.5736832"]},{"value":["2017-05-27","27.8791511"]},{"value":["2017-05-28","23.0023597"]},{"value":["2017-05-29","17.9433616"]},{"value":["2017-05-30","24.2280984"]},{"value":["2017-05-31","22.7212859"]},{"value":["2017-06-01","15.8546732"]},{"value":["2017-06-02","22.8059550"]},{"value":["2017-06-03","17.5782025"]},{"value":["2017-06-04","29.5511916"]},{"value":["2017-06-05","15.2777207"]},{"value":["2017-06-06","23.5899043"]},{"value":["2017-06-07","30.2829252"]},{"value":["2017-06-08","18.8383165"]},{"value":["2017-06-09","21.4464585"]},{"value":["2017-06-10","27.5226448"]},{"value":["2017-06-11","21.8019201"]},{"value":["2017-06-12","32.1247686"]},{"value":["2017-06-13","27.0192430"]},{"value":["2017-06-14","12.6458091"]},{"value":["2017-06-15","21.7629209"]},{"value":["2017-06-16","21.0169101"]},{"value":["2017-06-17","25.3215686"]},{"value":["2017-06-18","22.9167492"]},{"value":["2017-06-19","30.4583175"]},{"value":["2017-06-20","17.4166042"]},{"value":["2017-06-21","17.3963992"]},{"value":["2017-06-22"," 8.3999476"]},{"value":["2017-06-23","22.5948382"]},{"value":["2017-06-24","21.9213922"]},{"value":["2017-06-25","21.9044309"]},{"value":["2017-06-26","19.6598405"]},{"value":["2017-06-27","25.9608071"]},{"value":["2017-06-28","25.4564430"]},{"value":["2017-06-29"," 6.4808284"]},{"value":["2017-06-30","10.6302312"]},{"value":["2017-07-01","13.7408985"]},{"value":["2017-07-02","21.5272936"]},{"value":["2017-07-03","23.3569207"]},{"value":["2017-07-04","24.2193391"]},{"value":["2017-07-05","27.9186135"]},{"value":["2017-07-06","20.0053665"]},{"value":["2017-07-07","23.7426648"]},{"value":["2017-07-08","18.3917755"]},{"value":["2017-07-09","25.5015098"]},{"value":["2017-07-10","17.0532957"]},{"value":["2017-07-11","29.9733459"]},{"value":["2017-07-12","22.4234196"]},{"value":["2017-07-13","16.0458775"]},{"value":["2017-07-14","24.5438757"]},{"value":["2017-07-15","26.6643370"]},{"value":["2017-07-16","16.1563860"]},{"value":["2017-07-17","20.9690641"]},{"value":["2017-07-18","13.7602290"]},{"value":["2017-07-19"," 8.6967228"]},{"value":["2017-07-20","21.0394290"]},{"value":["2017-07-21","16.4152074"]},{"value":["2017-07-22","15.5412448"]},{"value":["2017-07-23","24.8760047"]},{"value":["2017-07-24","15.6058632"]},{"value":["2017-07-25","17.8514337"]},{"value":["2017-07-26","36.3516533"]},{"value":["2017-07-27","36.4606913"]},{"value":["2017-07-28","17.6957807"]},{"value":["2017-07-29","18.7477110"]},{"value":["2017-07-30","19.5064791"]},{"value":["2017-07-31","21.4835723"]},{"value":["2017-08-01","23.0461413"]},{"value":["2017-08-02","24.1558508"]},{"value":["2017-08-03","16.9874231"]},{"value":["2017-08-04","10.5650897"]},{"value":["2017-08-05","22.7283237"]},{"value":["2017-08-06","19.1164014"]},{"value":["2017-08-07","16.9175637"]},{"value":["2017-08-08","18.0348113"]},{"value":["2017-08-09","24.0179134"]},{"value":["2017-08-10","16.3107047"]},{"value":["2017-08-11","17.5472960"]},{"value":["2017-08-12","21.4242977"]},{"value":["2017-08-13","18.4508376"]},{"value":["2017-08-14","18.4070729"]},{"value":["2017-08-15","24.1102499"]},{"value":["2017-08-16","18.0014396"]},{"value":["2017-08-17","14.8830574"]},{"value":["2017-08-18","28.2568855"]},{"value":["2017-08-19","27.9884051"]},{"value":["2017-08-20","22.1848000"]},{"value":["2017-08-21","16.2041119"]},{"value":["2017-08-22","33.2306337"]},{"value":["2017-08-23","12.9199936"]},{"value":["2017-08-24","24.5890822"]},{"value":["2017-08-25","16.5942367"]},{"value":["2017-08-26","20.6585099"]},{"value":["2017-08-27","20.3826461"]},{"value":["2017-08-28"," 8.0102101"]},{"value":["2017-08-29","-0.9383287"]},{"value":["2017-08-30","17.1194539"]},{"value":["2017-08-31","15.5934086"]},{"value":["2017-09-01","25.8654740"]},{"value":["2017-09-02","12.8315871"]},{"value":["2017-09-03","20.9623144"]},{"value":["2017-09-04","28.6476380"]},{"value":["2017-09-05","24.5299581"]},{"value":["2017-09-06","13.7707660"]},{"value":["2017-09-07"," 8.9356709"]},{"value":["2017-09-08","11.0912434"]},{"value":["2017-09-09","13.1195611"]},{"value":["2017-09-10","17.5195609"]},{"value":["2017-09-11","21.9232211"]},{"value":["2017-09-12","16.5182706"]},{"value":["2017-09-13","26.6614175"]},{"value":["2017-09-14","13.5293512"]},{"value":["2017-09-15"," 9.5567678"]},{"value":["2017-09-16","13.8129296"]},{"value":["2017-09-17","22.3382977"]},{"value":["2017-09-18","10.0715724"]},{"value":["2017-09-19","14.5448834"]},{"value":["2017-09-20","12.5296105"]},{"value":["2017-09-21","20.4626244"]},{"value":["2017-09-22","15.9142901"]},{"value":["2017-09-23","18.7877566"]},{"value":["2017-09-24","15.9172806"]},{"value":["2017-09-25","12.2720184"]},{"value":["2017-09-26","28.5343965"]},{"value":["2017-09-27","18.6985430"]},{"value":["2017-09-28","26.5004836"]},{"value":["2017-09-29","20.9325523"]},{"value":["2017-09-30","10.6255061"]},{"value":["2017-10-01","16.4722592"]},{"value":["2017-10-02","25.0696610"]},{"value":["2017-10-03","28.2726693"]},{"value":["2017-10-04","22.4848650"]},{"value":["2017-10-05","16.4374282"]},{"value":["2017-10-06","16.9540257"]},{"value":["2017-10-07","20.5683119"]},{"value":["2017-10-08","18.4468785"]},{"value":["2017-10-09","20.6554795"]},{"value":["2017-10-10","25.3243871"]},{"value":["2017-10-11","20.8077772"]},{"value":["2017-10-12","18.1567593"]},{"value":["2017-10-13","20.3668492"]},{"value":["2017-10-14","24.1440955"]},{"value":["2017-10-15","20.5117842"]},{"value":["2017-10-16","19.4534155"]},{"value":["2017-10-17","21.3679865"]},{"value":["2017-10-18","14.6804907"]},{"value":["2017-10-19","31.2279743"]},{"value":["2017-10-20","15.3612815"]},{"value":["2017-10-21","-1.9415845"]},{"value":["2017-10-22","19.4463633"]},{"value":["2017-10-23","18.2481446"]},{"value":["2017-10-24","21.0470276"]},{"value":["2017-10-25","25.5956860"]},{"value":["2017-10-26","27.7248713"]},{"value":["2017-10-27","23.3142131"]},{"value":["2017-10-28","10.6553998"]},{"value":["2017-10-29","23.0563506"]},{"value":["2017-10-30","15.9839998"]},{"value":["2017-10-31","20.7381444"]},{"value":["2017-11-01","18.4537603"]},{"value":["2017-11-02","19.9235082"]},{"value":["2017-11-03","31.0369323"]},{"value":["2017-11-04","25.0103550"]},{"value":["2017-11-05","21.2523655"]},{"value":["2017-11-06","18.8037613"]},{"value":["2017-11-07","14.8810791"]},{"value":["2017-11-08","22.8772311"]},{"value":["2017-11-09","23.2316795"]},{"value":["2017-11-10","23.3251610"]},{"value":["2017-11-11","17.2302517"]},{"value":["2017-11-12","14.7768127"]},{"value":["2017-11-13","24.5745641"]},{"value":["2017-11-14","23.1016148"]},{"value":["2017-11-15","21.5864115"]},{"value":["2017-11-16","17.9859980"]},{"value":["2017-11-17","18.4862173"]},{"value":["2017-11-18","18.5936168"]},{"value":["2017-11-19","18.4738802"]},{"value":["2017-11-20","24.7733837"]},{"value":["2017-11-21","21.2377355"]},{"value":["2017-11-22","18.9462490"]},{"value":["2017-11-23","15.5552114"]},{"value":["2017-11-24","15.0794388"]},{"value":["2017-11-25","19.4671423"]},{"value":["2017-11-26","11.9706854"]},{"value":["2017-11-27","30.0971387"]},{"value":["2017-11-28","16.1473461"]},{"value":["2017-11-29","28.0857193"]},{"value":["2017-11-30","14.6237424"]},{"value":["2017-12-01","19.7455775"]},{"value":["2017-12-02","19.9707735"]},{"value":["2017-12-03","19.1326316"]},{"value":["2017-12-04","22.7473544"]},{"value":["2017-12-05","24.9280768"]},{"value":["2017-12-06","12.6039137"]},{"value":["2017-12-07","19.1319028"]},{"value":["2017-12-08","29.3229766"]},{"value":["2017-12-09","27.3962995"]},{"value":["2017-12-10","26.2945993"]},{"value":["2017-12-11","27.9082762"]},{"value":["2017-12-12","24.1130016"]},{"value":["2017-12-13","30.8234178"]},{"value":["2017-12-14","10.3704721"]},{"value":["2017-12-15","20.2835719"]},{"value":["2017-12-16","16.0333214"]},{"value":["2017-12-17","30.1095028"]},{"value":["2017-12-18","19.8949680"]},{"value":["2017-12-19","22.7707758"]},{"value":["2017-12-20","18.8836884"]},{"value":["2017-12-21","21.7577876"]},{"value":["2017-12-22","17.4737489"]},{"value":["2017-12-23"," 8.8859371"]},{"value":["2017-12-24","22.1034055"]},{"value":["2017-12-25","16.1366409"]},{"value":["2017-12-26","16.4236815"]},{"value":["2017-12-27","17.6958381"]},{"value":["2017-12-28","29.2854572"]},{"value":["2017-12-29","32.6025859"]},{"value":["2017-12-30","13.0770784"]},{"value":["2017-12-31","21.4206462"]},{"value":["2018-01-01","28.0151255"]},{"value":["2018-01-02","21.3412508"]},{"value":["2018-01-03","18.8889004"]},{"value":["2018-01-04","24.1063658"]},{"value":["2018-01-05","26.5837464"]},{"value":["2018-01-06","14.7652012"]},{"value":["2018-01-07","25.5269305"]},{"value":["2018-01-08","14.6503389"]},{"value":["2018-01-09","14.7326244"]},{"value":["2018-01-10","21.6788858"]},{"value":["2018-01-11","18.3872557"]},{"value":["2018-01-12","24.5447609"]},{"value":["2018-01-13","30.5883804"]},{"value":["2018-01-14"," 5.7018567"]},{"value":["2018-01-15","28.0534931"]},{"value":["2018-01-16","13.7834389"]},{"value":["2018-01-17","21.4672350"]},{"value":["2018-01-18","15.9229151"]},{"value":["2018-01-19","17.7660378"]},{"value":["2018-01-20","27.9350780"]},{"value":["2018-01-21","24.2344115"]},{"value":["2018-01-22","25.6844187"]},{"value":["2018-01-23","31.6903183"]},{"value":["2018-01-24","28.3777322"]},{"value":["2018-01-25","19.9441819"]},{"value":["2018-01-26","32.6324291"]},{"value":["2018-01-27","36.5269309"]},{"value":["2018-01-28","32.5286709"]},{"value":["2018-01-29","19.8711065"]},{"value":["2018-01-30","30.2436456"]},{"value":["2018-01-31","24.4849414"]},{"value":["2018-02-01","30.8334237"]},{"value":["2018-02-02","22.4307256"]},{"value":["2018-02-03","17.7115116"]},{"value":["2018-02-04","23.3243218"]},{"value":["2018-02-05","13.3529496"]},{"value":["2018-02-06","22.7940738"]},{"value":["2018-02-07","12.7577249"]},{"value":["2018-02-08","15.9876558"]},{"value":["2018-02-09","17.7591759"]},{"value":["2018-02-10","25.7377900"]},{"value":["2018-02-11","29.7887687"]},{"value":["2018-02-12","25.5645741"]},{"value":["2018-02-13","21.8535199"]},{"value":["2018-02-14","22.8121051"]},{"value":["2018-02-15","22.7335406"]},{"value":["2018-02-16","31.5356322"]},{"value":["2018-02-17","15.7193106"]},{"value":["2018-02-18","30.8045094"]},{"value":["2018-02-19","17.6092418"]},{"value":["2018-02-20","26.6812320"]},{"value":["2018-02-21","32.0771337"]},{"value":["2018-02-22","26.6145144"]},{"value":["2018-02-23","23.4365570"]},{"value":["2018-02-24","16.8243080"]},{"value":["2018-02-25","17.2457996"]},{"value":["2018-02-26","15.2693382"]},{"value":["2018-02-27","13.4105440"]},{"value":["2018-02-28","13.5332132"]},{"value":["2018-03-01","18.3637156"]},{"value":["2018-03-02","15.4220551"]},{"value":["2018-03-03","23.2690644"]},{"value":["2018-03-04","16.6087209"]},{"value":["2018-03-05","25.4251297"]},{"value":["2018-03-06","22.1274929"]},{"value":["2018-03-07","20.9541613"]},{"value":["2018-03-08","24.0415123"]},{"value":["2018-03-09","23.4295231"]},{"value":["2018-03-10","19.6736212"]},{"value":["2018-03-11","35.6316210"]},{"value":["2018-03-12","18.1617489"]},{"value":["2018-03-13","23.2993894"]},{"value":["2018-03-14","21.4151090"]},{"value":["2018-03-15","11.6566638"]},{"value":["2018-03-16","25.6116689"]},{"value":["2018-03-17","22.8377789"]},{"value":["2018-03-18","12.6020085"]},{"value":["2018-03-19","19.6895357"]},{"value":["2018-03-20","14.6274571"]},{"value":["2018-03-21","15.7250636"]},{"value":["2018-03-22","11.9378398"]},{"value":["2018-03-23","15.3660357"]},{"value":["2018-03-24","17.8473907"]},{"value":["2018-03-25","13.8630231"]},{"value":["2018-03-26","21.3915406"]},{"value":["2018-03-27","13.0105776"]},{"value":["2018-03-28"," 8.4176396"]},{"value":["2018-03-29","28.9874265"]},{"value":["2018-03-30","18.7652529"]},{"value":["2018-03-31","26.0412461"]},{"value":["2018-04-01"," 8.8368867"]},{"value":["2018-04-02","16.2686047"]},{"value":["2018-04-03","15.1363657"]},{"value":["2018-04-04","31.7139324"]},{"value":["2018-04-05","27.2703954"]},{"value":["2018-04-06","13.3537841"]},{"value":["2018-04-07","17.8045526"]},{"value":["2018-04-08","17.9541347"]},{"value":["2018-04-09","25.2251652"]},{"value":["2018-04-10","15.2025715"]},{"value":["2018-04-11","33.5016838"]},{"value":["2018-04-12","26.8792530"]},{"value":["2018-04-13","25.7951368"]},{"value":["2018-04-14","22.7594948"]},{"value":["2018-04-15","17.0426182"]},{"value":["2018-04-16","22.7645852"]},{"value":["2018-04-17","14.5530831"]},{"value":["2018-04-18","10.9253627"]},{"value":["2018-04-19","27.6987343"]},{"value":["2018-04-20","19.3575479"]},{"value":["2018-04-21","21.2687440"]},{"value":["2018-04-22","20.3950232"]},{"value":["2018-04-23","16.8144803"]},{"value":["2018-04-24","20.2633810"]},{"value":["2018-04-25","13.2900032"]},{"value":["2018-04-26","28.1972660"]},{"value":["2018-04-27","13.0359242"]},{"value":["2018-04-28","18.4506482"]},{"value":["2018-04-29","29.6387491"]},{"value":["2018-04-30","20.4773405"]},{"value":["2018-05-01","20.6856393"]},{"value":["2018-05-02","21.5146379"]},{"value":["2018-05-03","22.8238243"]},{"value":["2018-05-04","27.3334540"]},{"value":["2018-05-05","18.0939749"]},{"value":["2018-05-06","20.9750367"]},{"value":["2018-05-07","20.2231262"]},{"value":["2018-05-08"," 7.4093860"]},{"value":["2018-05-09","18.5393145"]},{"value":["2018-05-10","19.0651593"]},{"value":["2018-05-11","23.7456414"]},{"value":["2018-05-12","17.6663380"]},{"value":["2018-05-13","18.9588580"]},{"value":["2018-05-14","23.8589996"]},{"value":["2018-05-15","22.7339185"]},{"value":["2018-05-16","30.1289873"]},{"value":["2018-05-17","17.5793865"]},{"value":["2018-05-18","12.9536992"]},{"value":["2018-05-19","23.2234030"]},{"value":["2018-05-20","26.2883909"]},{"value":["2018-05-21","10.9996984"]},{"value":["2018-05-22","10.5251103"]},{"value":["2018-05-23","20.3431556"]},{"value":["2018-05-24","26.2009809"]},{"value":["2018-05-25","11.9039775"]},{"value":["2018-05-26","27.2998320"]},{"value":["2018-05-27","13.2628696"]},{"value":["2018-05-28","20.6558362"]},{"value":["2018-05-29","14.8515059"]},{"value":["2018-05-30","20.6647781"]},{"value":["2018-05-31","13.7768375"]},{"value":["2018-06-01","23.8785557"]},{"value":["2018-06-02","20.1545405"]},{"value":["2018-06-03","13.7888305"]},{"value":["2018-06-04","11.9768336"]},{"value":["2018-06-05","15.4980535"]},{"value":["2018-06-06","22.7134437"]},{"value":["2018-06-07","14.6693417"]},{"value":["2018-06-08","26.1918873"]},{"value":["2018-06-09","21.8688768"]},{"value":["2018-06-10","37.9604333"]},{"value":["2018-06-11","18.4330582"]},{"value":["2018-06-12","29.5626274"]},{"value":["2018-06-13","14.4836383"]},{"value":["2018-06-14","22.7163991"]},{"value":["2018-06-15","25.8622212"]},{"value":["2018-06-16","14.2584757"]},{"value":["2018-06-17","21.1271108"]},{"value":["2018-06-18","16.1620172"]},{"value":["2018-06-19","27.4599702"]},{"value":["2018-06-20","19.0493944"]},{"value":["2018-06-21","21.5445274"]},{"value":["2018-06-22","24.0763349"]},{"value":["2018-06-23","23.3407564"]},{"value":["2018-06-24","23.6384709"]},{"value":["2018-06-25","19.2727623"]},{"value":["2018-06-26","22.2487621"]},{"value":["2018-06-27","18.7634027"]},{"value":["2018-06-28","19.7070935"]},{"value":["2018-06-29","22.7742283"]},{"value":["2018-06-30","25.2619444"]},{"value":["2018-07-01","16.5270484"]},{"value":["2018-07-02"," 8.9507382"]},{"value":["2018-07-03","30.0527657"]},{"value":["2018-07-04","11.8802637"]},{"value":["2018-07-05"," 7.2031107"]},{"value":["2018-07-06","24.7557165"]},{"value":["2018-07-07","16.5554116"]},{"value":["2018-07-08","19.9093878"]},{"value":["2018-07-09","24.9007987"]},{"value":["2018-07-10","23.1493222"]},{"value":["2018-07-11","27.4705256"]},{"value":["2018-07-12","18.0844689"]},{"value":["2018-07-13","20.6862839"]},{"value":["2018-07-14","19.3092829"]},{"value":["2018-07-15","25.2487161"]},{"value":["2018-07-16","15.4059426"]},{"value":["2018-07-17","13.1039261"]},{"value":["2018-07-18","10.6153182"]},{"value":["2018-07-19","15.4598939"]},{"value":["2018-07-20","10.7522923"]},{"value":["2018-07-21","22.2205271"]},{"value":["2018-07-22","18.7519655"]},{"value":["2018-07-23","22.6625115"]},{"value":["2018-07-24","31.2296236"]},{"value":["2018-07-25","18.7603645"]},{"value":["2018-07-26","18.3850303"]},{"value":["2018-07-27","16.4014595"]},{"value":["2018-07-28","21.8309714"]},{"value":["2018-07-29","29.7689849"]},{"value":["2018-07-30","23.6620512"]},{"value":["2018-07-31","26.1083967"]},{"value":["2018-08-01","16.7398464"]},{"value":["2018-08-02","11.8499286"]},{"value":["2018-08-03","23.0454642"]},{"value":["2018-08-04","32.6235107"]},{"value":["2018-08-05","25.3820946"]},{"value":["2018-08-06","20.7652498"]},{"value":["2018-08-07","32.5054124"]},{"value":["2018-08-08","31.4271076"]},{"value":["2018-08-09","21.8154450"]},{"value":["2018-08-10","15.1498140"]},{"value":["2018-08-11","28.1110794"]},{"value":["2018-08-12","17.6587039"]},{"value":["2018-08-13","27.6921801"]},{"value":["2018-08-14","37.8000675"]},{"value":["2018-08-15","17.0930192"]},{"value":["2018-08-16","23.7449528"]},{"value":["2018-08-17","24.3030691"]},{"value":["2018-08-18","21.8702907"]},{"value":["2018-08-19","18.5568037"]},{"value":["2018-08-20","21.4774062"]},{"value":["2018-08-21","25.7129418"]},{"value":["2018-08-22","13.0866043"]},{"value":["2018-08-23","21.7763441"]},{"value":["2018-08-24","16.2036251"]},{"value":["2018-08-25","18.6112403"]},{"value":["2018-08-26","16.2150715"]},{"value":["2018-08-27","19.1812090"]},{"value":["2018-08-28","19.9903893"]},{"value":["2018-08-29","19.7508292"]},{"value":["2018-08-30","20.4420895"]},{"value":["2018-08-31","29.7038911"]},{"value":["2018-09-01","21.4308887"]},{"value":["2018-09-02","15.8682653"]},{"value":["2018-09-03","16.6684488"]},{"value":["2018-09-04","25.5543086"]},{"value":["2018-09-05","35.1350917"]},{"value":["2018-09-06","22.5137390"]},{"value":["2018-09-07","31.3160193"]},{"value":["2018-09-08","11.6768895"]},{"value":["2018-09-09","20.0565756"]},{"value":["2018-09-10","18.6009197"]},{"value":["2018-09-11","19.0915628"]},{"value":["2018-09-12","15.9638463"]},{"value":["2018-09-13","18.5717672"]},{"value":["2018-09-14","24.1306734"]},{"value":["2018-09-15","23.9149261"]},{"value":["2018-09-16","18.1166986"]},{"value":["2018-09-17","10.1819474"]},{"value":["2018-09-18"," 9.5027691"]},{"value":["2018-09-19","26.0069969"]},{"value":["2018-09-20","22.0391586"]},{"value":["2018-09-21","17.7678198"]},{"value":["2018-09-22","22.4360455"]},{"value":["2018-09-23","24.9068472"]},{"value":["2018-09-24","21.3012379"]},{"value":["2018-09-25","20.1700942"]},{"value":["2018-09-26","18.7097276"]},{"value":["2018-09-27","26.4507722"]},{"value":["2018-09-28","24.3037984"]},{"value":["2018-09-29","10.9695006"]},{"value":["2018-09-30","22.2825965"]},{"value":["2018-10-01","22.2544454"]},{"value":["2018-10-02","19.5711186"]},{"value":["2018-10-03","22.1441495"]},{"value":["2018-10-04","25.1394357"]},{"value":["2018-10-05","20.1091966"]},{"value":["2018-10-06","12.6369624"]},{"value":["2018-10-07","19.0209919"]},{"value":["2018-10-08","22.1201106"]},{"value":["2018-10-09","28.3025871"]},{"value":["2018-10-10","15.5603713"]},{"value":["2018-10-11","20.5137658"]},{"value":["2018-10-12","18.6587769"]},{"value":["2018-10-13","19.6638334"]},{"value":["2018-10-14","28.0267292"]},{"value":["2018-10-15","15.6064188"]},{"value":["2018-10-16","25.1662486"]},{"value":["2018-10-17","27.8278253"]},{"value":["2018-10-18","30.9809959"]},{"value":["2018-10-19","30.5096852"]},{"value":["2018-10-20","18.5361177"]},{"value":["2018-10-21"," 8.3151433"]},{"value":["2018-10-22","31.0365771"]},{"value":["2018-10-23","24.0824546"]},{"value":["2018-10-24","22.4402785"]},{"value":["2018-10-25","20.0950522"]},{"value":["2018-10-26","13.5153076"]},{"value":["2018-10-27","14.1149930"]},{"value":["2018-10-28","32.7965617"]},{"value":["2018-10-29","12.4983929"]},{"value":["2018-10-30","19.0807923"]},{"value":["2018-10-31","18.8792576"]},{"value":["2018-11-01","13.0037041"]},{"value":["2018-11-02","20.5034906"]},{"value":["2018-11-03","16.1006137"]},{"value":["2018-11-04","21.6908636"]},{"value":["2018-11-05","27.2692479"]},{"value":["2018-11-06","21.4464154"]},{"value":["2018-11-07","22.8182491"]},{"value":["2018-11-08","22.5081294"]},{"value":["2018-11-09","24.0176233"]},{"value":["2018-11-10","18.4076320"]},{"value":["2018-11-11","17.6230103"]},{"value":["2018-11-12","16.3748410"]},{"value":["2018-11-13","20.8651360"]},{"value":["2018-11-14","24.4284339"]},{"value":["2018-11-15","23.7811483"]},{"value":["2018-11-16","14.7634552"]},{"value":["2018-11-17","14.4162707"]},{"value":["2018-11-18","15.4569467"]},{"value":["2018-11-19","13.7397448"]},{"value":["2018-11-20","24.2119208"]},{"value":["2018-11-21","19.1071998"]},{"value":["2018-11-22","23.6836309"]},{"value":["2018-11-23","20.8786541"]},{"value":["2018-11-24","22.7252747"]},{"value":["2018-11-25","16.5262797"]},{"value":["2018-11-26","24.4686456"]},{"value":["2018-11-27","21.9122537"]},{"value":["2018-11-28","11.3854970"]},{"value":["2018-11-29","23.3707631"]},{"value":["2018-11-30","22.5129473"]},{"value":["2018-12-01","16.6434591"]},{"value":["2018-12-02","28.6069977"]},{"value":["2018-12-03","16.5057987"]},{"value":["2018-12-04","28.7062210"]},{"value":["2018-12-05","22.3438607"]},{"value":["2018-12-06"," 7.1901335"]},{"value":["2018-12-07","28.1638426"]},{"value":["2018-12-08","23.9109598"]},{"value":["2018-12-09","15.3177757"]},{"value":["2018-12-10","21.5135219"]},{"value":["2018-12-11","26.1077705"]},{"value":["2018-12-12","19.3136018"]},{"value":["2018-12-13","26.5275610"]},{"value":["2018-12-14","22.5801263"]},{"value":["2018-12-15","16.7662849"]},{"value":["2018-12-16","18.7982507"]},{"value":["2018-12-17","34.6969191"]},{"value":["2018-12-18","16.6277679"]},{"value":["2018-12-19","15.3879419"]},{"value":["2018-12-20","16.3950390"]},{"value":["2018-12-21","13.8976061"]},{"value":["2018-12-22","15.8730164"]},{"value":["2018-12-23","26.0869606"]},{"value":["2018-12-24"," 8.4821153"]},{"value":["2018-12-25","21.4017573"]},{"value":["2018-12-26","16.3801652"]},{"value":["2018-12-27","18.4536173"]},{"value":["2018-12-28","21.0035590"]},{"value":["2018-12-29","14.8408050"]},{"value":["2018-12-30","21.6363555"]},{"value":["2018-12-31","12.6473991"]}],"name":null,"type":"heatmap","coordinateSystem":"calendar","calendarIndex":0}],"visualMap":[{"max":30,"calculable":true,"type":"continuous"}],"title":[{"text":"Calendar","subtext":"Heatmap"}],"tooltip":{"trigger":"item"},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>When charting by multiple years, call <code>e_calendar</code> again and group by year.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>year <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">format</span>(date, <span class="st">"%Y"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_charts</span>(date) <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_calendar</span>(<span class="at">range =</span> <span class="st">"2017"</span>,<span class="at">top=</span><span class="st">"40"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_calendar</span>(<span class="at">range =</span> <span class="st">"2018"</span>,<span class="at">top=</span><span class="st">"260"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_heatmap</span>(values, <span class="at">coord_system =</span> <span class="st">"calendar"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_visual_map</span>(<span class="at">max =</span> <span class="dv">30</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_title</span>(<span class="st">"Calendar"</span>, <span class="st">"Heatmap"</span>)<span class="sc">|&gt;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>(<span class="st">"item"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-b9ee4b5c242541dfe9da" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b9ee4b5c242541dfe9da">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"calendar":[{"range":"2017","top":"40"},{"range":"2018","top":"260"}],"series":[{"data":[{"value":["2017-01-01","22.2603441"]},{"value":["2017-01-02","26.4319628"]},{"value":["2017-01-03","23.5257971"]},{"value":["2017-01-04","10.4286445"]},{"value":["2017-01-05","17.5557697"]},{"value":["2017-01-06","19.9909388"]},{"value":["2017-01-07","25.5278054"]},{"value":["2017-01-08","23.2593294"]},{"value":["2017-01-09","30.5911779"]},{"value":["2017-01-10","19.1926985"]},{"value":["2017-01-11","18.7292906"]},{"value":["2017-01-12","15.8766915"]},{"value":["2017-01-13","30.0586164"]},{"value":["2017-01-14","28.4991716"]},{"value":["2017-01-15","21.5224142"]},{"value":["2017-01-16","26.2156193"]},{"value":["2017-01-17","11.9367400"]},{"value":["2017-01-18","20.0045608"]},{"value":["2017-01-19"," 5.3520794"]},{"value":["2017-01-20","21.2773467"]},{"value":["2017-01-21","22.3323548"]},{"value":["2017-01-22","11.8464019"]},{"value":["2017-01-23","21.6139353"]},{"value":["2017-01-24","10.4477563"]},{"value":["2017-01-25","21.2371640"]},{"value":["2017-01-26","15.5543901"]},{"value":["2017-01-27","22.4761139"]},{"value":["2017-01-28","16.9404714"]},{"value":["2017-01-29","22.7347776"]},{"value":["2017-01-30","26.4356758"]},{"value":["2017-01-31","28.2712871"]},{"value":["2017-02-01","20.6039396"]},{"value":["2017-02-02","21.2575563"]},{"value":["2017-02-03","19.0242832"]},{"value":["2017-02-04","13.3117661"]},{"value":["2017-02-05"," 7.2337966"]},{"value":["2017-02-06","21.0885691"]},{"value":["2017-02-07","14.5551284"]},{"value":["2017-02-08","32.0315659"]},{"value":["2017-02-09","21.3196646"]},{"value":["2017-02-10","16.6671904"]},{"value":["2017-02-11","18.3366928"]},{"value":["2017-02-12","18.5485120"]},{"value":["2017-02-13","25.6955818"]},{"value":["2017-02-14","23.6714709"]},{"value":["2017-02-15","15.0695727"]},{"value":["2017-02-16","22.8423364"]},{"value":["2017-02-17","24.5187869"]},{"value":["2017-02-18","24.0894769"]},{"value":["2017-02-19","19.4283810"]},{"value":["2017-02-20","25.4365700"]},{"value":["2017-02-21","24.3422941"]},{"value":["2017-02-22","20.2238945"]},{"value":["2017-02-23","27.1571567"]},{"value":["2017-02-24","11.7802543"]},{"value":["2017-02-25","20.3139824"]},{"value":["2017-02-26","16.7490654"]},{"value":["2017-02-27","12.3103023"]},{"value":["2017-02-28","15.4838885"]},{"value":["2017-03-01","19.5425048"]},{"value":["2017-03-02","23.0107622"]},{"value":["2017-03-03","20.0045931"]},{"value":["2017-03-04","23.1737820"]},{"value":["2017-03-05","15.1500335"]},{"value":["2017-03-06","19.0626052"]},{"value":["2017-03-07","27.3761857"]},{"value":["2017-03-08","22.0031774"]},{"value":["2017-03-09","21.3104006"]},{"value":["2017-03-10","31.4801639"]},{"value":["2017-03-11","24.8007530"]},{"value":["2017-03-12","20.0106109"]},{"value":["2017-03-13","20.5629018"]},{"value":["2017-03-14","21.3878906"]},{"value":["2017-03-15","20.2478631"]},{"value":["2017-03-16","19.1704267"]},{"value":["2017-03-17","13.2179850"]},{"value":["2017-03-18","15.9037196"]},{"value":["2017-03-19","19.8499359"]},{"value":["2017-03-20","16.0567909"]},{"value":["2017-03-21","21.9036855"]},{"value":["2017-03-22","22.1538432"]},{"value":["2017-03-23","23.5812132"]},{"value":["2017-03-24","18.0212234"]},{"value":["2017-03-25","12.8247791"]},{"value":["2017-03-26","25.2657447"]},{"value":["2017-03-27","26.6923754"]},{"value":["2017-03-28","18.0574047"]},{"value":["2017-03-29","15.6834248"]},{"value":["2017-03-30"," 9.8754661"]},{"value":["2017-03-31","22.8047058"]},{"value":["2017-04-01","21.6876502"]},{"value":["2017-04-02","31.6002279"]},{"value":["2017-04-03","18.9495058"]},{"value":["2017-04-04","19.0511100"]},{"value":["2017-04-05","26.2123402"]},{"value":["2017-04-06","24.9724499"]},{"value":["2017-04-07","12.4316473"]},{"value":["2017-04-08","23.7049709"]},{"value":["2017-04-09","23.1076214"]},{"value":["2017-04-10","16.1183815"]},{"value":["2017-04-11","23.6536988"]},{"value":["2017-04-12","11.8648949"]},{"value":["2017-04-13","24.5180371"]},{"value":["2017-04-14"," 7.0838073"]},{"value":["2017-04-15","24.9180117"]},{"value":["2017-04-16","23.2474979"]},{"value":["2017-04-17","22.2867050"]},{"value":["2017-04-18","31.4620951"]},{"value":["2017-04-19","23.2568807"]},{"value":["2017-04-20","14.0766487"]},{"value":["2017-04-21","19.4674542"]},{"value":["2017-04-22","18.4876586"]},{"value":["2017-04-23","21.2036025"]},{"value":["2017-04-24","21.0047938"]},{"value":["2017-04-25","25.8514679"]},{"value":["2017-04-26","26.5198411"]},{"value":["2017-04-27","21.3446290"]},{"value":["2017-04-28","27.9689930"]},{"value":["2017-04-29","21.2681628"]},{"value":["2017-04-30","24.8003243"]},{"value":["2017-05-01","17.6028311"]},{"value":["2017-05-02","11.7786689"]},{"value":["2017-05-03","18.0843725"]},{"value":["2017-05-04","11.9705377"]},{"value":["2017-05-05","25.0995612"]},{"value":["2017-05-06","17.4928293"]},{"value":["2017-05-07","21.7422709"]},{"value":["2017-05-08","25.4047482"]},{"value":["2017-05-09","28.0713474"]},{"value":["2017-05-10","10.3203543"]},{"value":["2017-05-11","27.0796448"]},{"value":["2017-05-12","23.1442162"]},{"value":["2017-05-13","15.0727228"]},{"value":["2017-05-14","12.8460392"]},{"value":["2017-05-15","16.3223425"]},{"value":["2017-05-16","19.7074629"]},{"value":["2017-05-17","15.7312657"]},{"value":["2017-05-18","11.9921155"]},{"value":["2017-05-19","19.0156052"]},{"value":["2017-05-20","27.7368608"]},{"value":["2017-05-21","25.6054079"]},{"value":["2017-05-22","15.6171922"]},{"value":["2017-05-23","28.0490413"]},{"value":["2017-05-24","18.4926061"]},{"value":["2017-05-25","22.4020181"]},{"value":["2017-05-26","21.5736832"]},{"value":["2017-05-27","27.8791511"]},{"value":["2017-05-28","23.0023597"]},{"value":["2017-05-29","17.9433616"]},{"value":["2017-05-30","24.2280984"]},{"value":["2017-05-31","22.7212859"]},{"value":["2017-06-01","15.8546732"]},{"value":["2017-06-02","22.8059550"]},{"value":["2017-06-03","17.5782025"]},{"value":["2017-06-04","29.5511916"]},{"value":["2017-06-05","15.2777207"]},{"value":["2017-06-06","23.5899043"]},{"value":["2017-06-07","30.2829252"]},{"value":["2017-06-08","18.8383165"]},{"value":["2017-06-09","21.4464585"]},{"value":["2017-06-10","27.5226448"]},{"value":["2017-06-11","21.8019201"]},{"value":["2017-06-12","32.1247686"]},{"value":["2017-06-13","27.0192430"]},{"value":["2017-06-14","12.6458091"]},{"value":["2017-06-15","21.7629209"]},{"value":["2017-06-16","21.0169101"]},{"value":["2017-06-17","25.3215686"]},{"value":["2017-06-18","22.9167492"]},{"value":["2017-06-19","30.4583175"]},{"value":["2017-06-20","17.4166042"]},{"value":["2017-06-21","17.3963992"]},{"value":["2017-06-22"," 8.3999476"]},{"value":["2017-06-23","22.5948382"]},{"value":["2017-06-24","21.9213922"]},{"value":["2017-06-25","21.9044309"]},{"value":["2017-06-26","19.6598405"]},{"value":["2017-06-27","25.9608071"]},{"value":["2017-06-28","25.4564430"]},{"value":["2017-06-29"," 6.4808284"]},{"value":["2017-06-30","10.6302312"]},{"value":["2017-07-01","13.7408985"]},{"value":["2017-07-02","21.5272936"]},{"value":["2017-07-03","23.3569207"]},{"value":["2017-07-04","24.2193391"]},{"value":["2017-07-05","27.9186135"]},{"value":["2017-07-06","20.0053665"]},{"value":["2017-07-07","23.7426648"]},{"value":["2017-07-08","18.3917755"]},{"value":["2017-07-09","25.5015098"]},{"value":["2017-07-10","17.0532957"]},{"value":["2017-07-11","29.9733459"]},{"value":["2017-07-12","22.4234196"]},{"value":["2017-07-13","16.0458775"]},{"value":["2017-07-14","24.5438757"]},{"value":["2017-07-15","26.6643370"]},{"value":["2017-07-16","16.1563860"]},{"value":["2017-07-17","20.9690641"]},{"value":["2017-07-18","13.7602290"]},{"value":["2017-07-19"," 8.6967228"]},{"value":["2017-07-20","21.0394290"]},{"value":["2017-07-21","16.4152074"]},{"value":["2017-07-22","15.5412448"]},{"value":["2017-07-23","24.8760047"]},{"value":["2017-07-24","15.6058632"]},{"value":["2017-07-25","17.8514337"]},{"value":["2017-07-26","36.3516533"]},{"value":["2017-07-27","36.4606913"]},{"value":["2017-07-28","17.6957807"]},{"value":["2017-07-29","18.7477110"]},{"value":["2017-07-30","19.5064791"]},{"value":["2017-07-31","21.4835723"]},{"value":["2017-08-01","23.0461413"]},{"value":["2017-08-02","24.1558508"]},{"value":["2017-08-03","16.9874231"]},{"value":["2017-08-04","10.5650897"]},{"value":["2017-08-05","22.7283237"]},{"value":["2017-08-06","19.1164014"]},{"value":["2017-08-07","16.9175637"]},{"value":["2017-08-08","18.0348113"]},{"value":["2017-08-09","24.0179134"]},{"value":["2017-08-10","16.3107047"]},{"value":["2017-08-11","17.5472960"]},{"value":["2017-08-12","21.4242977"]},{"value":["2017-08-13","18.4508376"]},{"value":["2017-08-14","18.4070729"]},{"value":["2017-08-15","24.1102499"]},{"value":["2017-08-16","18.0014396"]},{"value":["2017-08-17","14.8830574"]},{"value":["2017-08-18","28.2568855"]},{"value":["2017-08-19","27.9884051"]},{"value":["2017-08-20","22.1848000"]},{"value":["2017-08-21","16.2041119"]},{"value":["2017-08-22","33.2306337"]},{"value":["2017-08-23","12.9199936"]},{"value":["2017-08-24","24.5890822"]},{"value":["2017-08-25","16.5942367"]},{"value":["2017-08-26","20.6585099"]},{"value":["2017-08-27","20.3826461"]},{"value":["2017-08-28"," 8.0102101"]},{"value":["2017-08-29","-0.9383287"]},{"value":["2017-08-30","17.1194539"]},{"value":["2017-08-31","15.5934086"]},{"value":["2017-09-01","25.8654740"]},{"value":["2017-09-02","12.8315871"]},{"value":["2017-09-03","20.9623144"]},{"value":["2017-09-04","28.6476380"]},{"value":["2017-09-05","24.5299581"]},{"value":["2017-09-06","13.7707660"]},{"value":["2017-09-07"," 8.9356709"]},{"value":["2017-09-08","11.0912434"]},{"value":["2017-09-09","13.1195611"]},{"value":["2017-09-10","17.5195609"]},{"value":["2017-09-11","21.9232211"]},{"value":["2017-09-12","16.5182706"]},{"value":["2017-09-13","26.6614175"]},{"value":["2017-09-14","13.5293512"]},{"value":["2017-09-15"," 9.5567678"]},{"value":["2017-09-16","13.8129296"]},{"value":["2017-09-17","22.3382977"]},{"value":["2017-09-18","10.0715724"]},{"value":["2017-09-19","14.5448834"]},{"value":["2017-09-20","12.5296105"]},{"value":["2017-09-21","20.4626244"]},{"value":["2017-09-22","15.9142901"]},{"value":["2017-09-23","18.7877566"]},{"value":["2017-09-24","15.9172806"]},{"value":["2017-09-25","12.2720184"]},{"value":["2017-09-26","28.5343965"]},{"value":["2017-09-27","18.6985430"]},{"value":["2017-09-28","26.5004836"]},{"value":["2017-09-29","20.9325523"]},{"value":["2017-09-30","10.6255061"]},{"value":["2017-10-01","16.4722592"]},{"value":["2017-10-02","25.0696610"]},{"value":["2017-10-03","28.2726693"]},{"value":["2017-10-04","22.4848650"]},{"value":["2017-10-05","16.4374282"]},{"value":["2017-10-06","16.9540257"]},{"value":["2017-10-07","20.5683119"]},{"value":["2017-10-08","18.4468785"]},{"value":["2017-10-09","20.6554795"]},{"value":["2017-10-10","25.3243871"]},{"value":["2017-10-11","20.8077772"]},{"value":["2017-10-12","18.1567593"]},{"value":["2017-10-13","20.3668492"]},{"value":["2017-10-14","24.1440955"]},{"value":["2017-10-15","20.5117842"]},{"value":["2017-10-16","19.4534155"]},{"value":["2017-10-17","21.3679865"]},{"value":["2017-10-18","14.6804907"]},{"value":["2017-10-19","31.2279743"]},{"value":["2017-10-20","15.3612815"]},{"value":["2017-10-21","-1.9415845"]},{"value":["2017-10-22","19.4463633"]},{"value":["2017-10-23","18.2481446"]},{"value":["2017-10-24","21.0470276"]},{"value":["2017-10-25","25.5956860"]},{"value":["2017-10-26","27.7248713"]},{"value":["2017-10-27","23.3142131"]},{"value":["2017-10-28","10.6553998"]},{"value":["2017-10-29","23.0563506"]},{"value":["2017-10-30","15.9839998"]},{"value":["2017-10-31","20.7381444"]},{"value":["2017-11-01","18.4537603"]},{"value":["2017-11-02","19.9235082"]},{"value":["2017-11-03","31.0369323"]},{"value":["2017-11-04","25.0103550"]},{"value":["2017-11-05","21.2523655"]},{"value":["2017-11-06","18.8037613"]},{"value":["2017-11-07","14.8810791"]},{"value":["2017-11-08","22.8772311"]},{"value":["2017-11-09","23.2316795"]},{"value":["2017-11-10","23.3251610"]},{"value":["2017-11-11","17.2302517"]},{"value":["2017-11-12","14.7768127"]},{"value":["2017-11-13","24.5745641"]},{"value":["2017-11-14","23.1016148"]},{"value":["2017-11-15","21.5864115"]},{"value":["2017-11-16","17.9859980"]},{"value":["2017-11-17","18.4862173"]},{"value":["2017-11-18","18.5936168"]},{"value":["2017-11-19","18.4738802"]},{"value":["2017-11-20","24.7733837"]},{"value":["2017-11-21","21.2377355"]},{"value":["2017-11-22","18.9462490"]},{"value":["2017-11-23","15.5552114"]},{"value":["2017-11-24","15.0794388"]},{"value":["2017-11-25","19.4671423"]},{"value":["2017-11-26","11.9706854"]},{"value":["2017-11-27","30.0971387"]},{"value":["2017-11-28","16.1473461"]},{"value":["2017-11-29","28.0857193"]},{"value":["2017-11-30","14.6237424"]},{"value":["2017-12-01","19.7455775"]},{"value":["2017-12-02","19.9707735"]},{"value":["2017-12-03","19.1326316"]},{"value":["2017-12-04","22.7473544"]},{"value":["2017-12-05","24.9280768"]},{"value":["2017-12-06","12.6039137"]},{"value":["2017-12-07","19.1319028"]},{"value":["2017-12-08","29.3229766"]},{"value":["2017-12-09","27.3962995"]},{"value":["2017-12-10","26.2945993"]},{"value":["2017-12-11","27.9082762"]},{"value":["2017-12-12","24.1130016"]},{"value":["2017-12-13","30.8234178"]},{"value":["2017-12-14","10.3704721"]},{"value":["2017-12-15","20.2835719"]},{"value":["2017-12-16","16.0333214"]},{"value":["2017-12-17","30.1095028"]},{"value":["2017-12-18","19.8949680"]},{"value":["2017-12-19","22.7707758"]},{"value":["2017-12-20","18.8836884"]},{"value":["2017-12-21","21.7577876"]},{"value":["2017-12-22","17.4737489"]},{"value":["2017-12-23"," 8.8859371"]},{"value":["2017-12-24","22.1034055"]},{"value":["2017-12-25","16.1366409"]},{"value":["2017-12-26","16.4236815"]},{"value":["2017-12-27","17.6958381"]},{"value":["2017-12-28","29.2854572"]},{"value":["2017-12-29","32.6025859"]},{"value":["2017-12-30","13.0770784"]},{"value":["2017-12-31","21.4206462"]}],"name":null,"type":"heatmap","coordinateSystem":"calendar","calendarIndex":0},{"data":[{"value":["2018-01-01","28.015125"]},{"value":["2018-01-02","21.341251"]},{"value":["2018-01-03","18.888900"]},{"value":["2018-01-04","24.106366"]},{"value":["2018-01-05","26.583746"]},{"value":["2018-01-06","14.765201"]},{"value":["2018-01-07","25.526930"]},{"value":["2018-01-08","14.650339"]},{"value":["2018-01-09","14.732624"]},{"value":["2018-01-10","21.678886"]},{"value":["2018-01-11","18.387256"]},{"value":["2018-01-12","24.544761"]},{"value":["2018-01-13","30.588380"]},{"value":["2018-01-14"," 5.701857"]},{"value":["2018-01-15","28.053493"]},{"value":["2018-01-16","13.783439"]},{"value":["2018-01-17","21.467235"]},{"value":["2018-01-18","15.922915"]},{"value":["2018-01-19","17.766038"]},{"value":["2018-01-20","27.935078"]},{"value":["2018-01-21","24.234411"]},{"value":["2018-01-22","25.684419"]},{"value":["2018-01-23","31.690318"]},{"value":["2018-01-24","28.377732"]},{"value":["2018-01-25","19.944182"]},{"value":["2018-01-26","32.632429"]},{"value":["2018-01-27","36.526931"]},{"value":["2018-01-28","32.528671"]},{"value":["2018-01-29","19.871106"]},{"value":["2018-01-30","30.243646"]},{"value":["2018-01-31","24.484941"]},{"value":["2018-02-01","30.833424"]},{"value":["2018-02-02","22.430726"]},{"value":["2018-02-03","17.711512"]},{"value":["2018-02-04","23.324322"]},{"value":["2018-02-05","13.352950"]},{"value":["2018-02-06","22.794074"]},{"value":["2018-02-07","12.757725"]},{"value":["2018-02-08","15.987656"]},{"value":["2018-02-09","17.759176"]},{"value":["2018-02-10","25.737790"]},{"value":["2018-02-11","29.788769"]},{"value":["2018-02-12","25.564574"]},{"value":["2018-02-13","21.853520"]},{"value":["2018-02-14","22.812105"]},{"value":["2018-02-15","22.733541"]},{"value":["2018-02-16","31.535632"]},{"value":["2018-02-17","15.719311"]},{"value":["2018-02-18","30.804509"]},{"value":["2018-02-19","17.609242"]},{"value":["2018-02-20","26.681232"]},{"value":["2018-02-21","32.077134"]},{"value":["2018-02-22","26.614514"]},{"value":["2018-02-23","23.436557"]},{"value":["2018-02-24","16.824308"]},{"value":["2018-02-25","17.245800"]},{"value":["2018-02-26","15.269338"]},{"value":["2018-02-27","13.410544"]},{"value":["2018-02-28","13.533213"]},{"value":["2018-03-01","18.363716"]},{"value":["2018-03-02","15.422055"]},{"value":["2018-03-03","23.269064"]},{"value":["2018-03-04","16.608721"]},{"value":["2018-03-05","25.425130"]},{"value":["2018-03-06","22.127493"]},{"value":["2018-03-07","20.954161"]},{"value":["2018-03-08","24.041512"]},{"value":["2018-03-09","23.429523"]},{"value":["2018-03-10","19.673621"]},{"value":["2018-03-11","35.631621"]},{"value":["2018-03-12","18.161749"]},{"value":["2018-03-13","23.299389"]},{"value":["2018-03-14","21.415109"]},{"value":["2018-03-15","11.656664"]},{"value":["2018-03-16","25.611669"]},{"value":["2018-03-17","22.837779"]},{"value":["2018-03-18","12.602008"]},{"value":["2018-03-19","19.689536"]},{"value":["2018-03-20","14.627457"]},{"value":["2018-03-21","15.725064"]},{"value":["2018-03-22","11.937840"]},{"value":["2018-03-23","15.366036"]},{"value":["2018-03-24","17.847391"]},{"value":["2018-03-25","13.863023"]},{"value":["2018-03-26","21.391541"]},{"value":["2018-03-27","13.010578"]},{"value":["2018-03-28"," 8.417640"]},{"value":["2018-03-29","28.987427"]},{"value":["2018-03-30","18.765253"]},{"value":["2018-03-31","26.041246"]},{"value":["2018-04-01"," 8.836887"]},{"value":["2018-04-02","16.268605"]},{"value":["2018-04-03","15.136366"]},{"value":["2018-04-04","31.713932"]},{"value":["2018-04-05","27.270395"]},{"value":["2018-04-06","13.353784"]},{"value":["2018-04-07","17.804553"]},{"value":["2018-04-08","17.954135"]},{"value":["2018-04-09","25.225165"]},{"value":["2018-04-10","15.202571"]},{"value":["2018-04-11","33.501684"]},{"value":["2018-04-12","26.879253"]},{"value":["2018-04-13","25.795137"]},{"value":["2018-04-14","22.759495"]},{"value":["2018-04-15","17.042618"]},{"value":["2018-04-16","22.764585"]},{"value":["2018-04-17","14.553083"]},{"value":["2018-04-18","10.925363"]},{"value":["2018-04-19","27.698734"]},{"value":["2018-04-20","19.357548"]},{"value":["2018-04-21","21.268744"]},{"value":["2018-04-22","20.395023"]},{"value":["2018-04-23","16.814480"]},{"value":["2018-04-24","20.263381"]},{"value":["2018-04-25","13.290003"]},{"value":["2018-04-26","28.197266"]},{"value":["2018-04-27","13.035924"]},{"value":["2018-04-28","18.450648"]},{"value":["2018-04-29","29.638749"]},{"value":["2018-04-30","20.477341"]},{"value":["2018-05-01","20.685639"]},{"value":["2018-05-02","21.514638"]},{"value":["2018-05-03","22.823824"]},{"value":["2018-05-04","27.333454"]},{"value":["2018-05-05","18.093975"]},{"value":["2018-05-06","20.975037"]},{"value":["2018-05-07","20.223126"]},{"value":["2018-05-08"," 7.409386"]},{"value":["2018-05-09","18.539314"]},{"value":["2018-05-10","19.065159"]},{"value":["2018-05-11","23.745641"]},{"value":["2018-05-12","17.666338"]},{"value":["2018-05-13","18.958858"]},{"value":["2018-05-14","23.859000"]},{"value":["2018-05-15","22.733919"]},{"value":["2018-05-16","30.128987"]},{"value":["2018-05-17","17.579386"]},{"value":["2018-05-18","12.953699"]},{"value":["2018-05-19","23.223403"]},{"value":["2018-05-20","26.288391"]},{"value":["2018-05-21","10.999698"]},{"value":["2018-05-22","10.525110"]},{"value":["2018-05-23","20.343156"]},{"value":["2018-05-24","26.200981"]},{"value":["2018-05-25","11.903978"]},{"value":["2018-05-26","27.299832"]},{"value":["2018-05-27","13.262870"]},{"value":["2018-05-28","20.655836"]},{"value":["2018-05-29","14.851506"]},{"value":["2018-05-30","20.664778"]},{"value":["2018-05-31","13.776838"]},{"value":["2018-06-01","23.878556"]},{"value":["2018-06-02","20.154540"]},{"value":["2018-06-03","13.788830"]},{"value":["2018-06-04","11.976834"]},{"value":["2018-06-05","15.498054"]},{"value":["2018-06-06","22.713444"]},{"value":["2018-06-07","14.669342"]},{"value":["2018-06-08","26.191887"]},{"value":["2018-06-09","21.868877"]},{"value":["2018-06-10","37.960433"]},{"value":["2018-06-11","18.433058"]},{"value":["2018-06-12","29.562627"]},{"value":["2018-06-13","14.483638"]},{"value":["2018-06-14","22.716399"]},{"value":["2018-06-15","25.862221"]},{"value":["2018-06-16","14.258476"]},{"value":["2018-06-17","21.127111"]},{"value":["2018-06-18","16.162017"]},{"value":["2018-06-19","27.459970"]},{"value":["2018-06-20","19.049394"]},{"value":["2018-06-21","21.544527"]},{"value":["2018-06-22","24.076335"]},{"value":["2018-06-23","23.340756"]},{"value":["2018-06-24","23.638471"]},{"value":["2018-06-25","19.272762"]},{"value":["2018-06-26","22.248762"]},{"value":["2018-06-27","18.763403"]},{"value":["2018-06-28","19.707094"]},{"value":["2018-06-29","22.774228"]},{"value":["2018-06-30","25.261944"]},{"value":["2018-07-01","16.527048"]},{"value":["2018-07-02"," 8.950738"]},{"value":["2018-07-03","30.052766"]},{"value":["2018-07-04","11.880264"]},{"value":["2018-07-05"," 7.203111"]},{"value":["2018-07-06","24.755716"]},{"value":["2018-07-07","16.555412"]},{"value":["2018-07-08","19.909388"]},{"value":["2018-07-09","24.900799"]},{"value":["2018-07-10","23.149322"]},{"value":["2018-07-11","27.470526"]},{"value":["2018-07-12","18.084469"]},{"value":["2018-07-13","20.686284"]},{"value":["2018-07-14","19.309283"]},{"value":["2018-07-15","25.248716"]},{"value":["2018-07-16","15.405943"]},{"value":["2018-07-17","13.103926"]},{"value":["2018-07-18","10.615318"]},{"value":["2018-07-19","15.459894"]},{"value":["2018-07-20","10.752292"]},{"value":["2018-07-21","22.220527"]},{"value":["2018-07-22","18.751965"]},{"value":["2018-07-23","22.662511"]},{"value":["2018-07-24","31.229624"]},{"value":["2018-07-25","18.760365"]},{"value":["2018-07-26","18.385030"]},{"value":["2018-07-27","16.401459"]},{"value":["2018-07-28","21.830971"]},{"value":["2018-07-29","29.768985"]},{"value":["2018-07-30","23.662051"]},{"value":["2018-07-31","26.108397"]},{"value":["2018-08-01","16.739846"]},{"value":["2018-08-02","11.849929"]},{"value":["2018-08-03","23.045464"]},{"value":["2018-08-04","32.623511"]},{"value":["2018-08-05","25.382095"]},{"value":["2018-08-06","20.765250"]},{"value":["2018-08-07","32.505412"]},{"value":["2018-08-08","31.427108"]},{"value":["2018-08-09","21.815445"]},{"value":["2018-08-10","15.149814"]},{"value":["2018-08-11","28.111079"]},{"value":["2018-08-12","17.658704"]},{"value":["2018-08-13","27.692180"]},{"value":["2018-08-14","37.800067"]},{"value":["2018-08-15","17.093019"]},{"value":["2018-08-16","23.744953"]},{"value":["2018-08-17","24.303069"]},{"value":["2018-08-18","21.870291"]},{"value":["2018-08-19","18.556804"]},{"value":["2018-08-20","21.477406"]},{"value":["2018-08-21","25.712942"]},{"value":["2018-08-22","13.086604"]},{"value":["2018-08-23","21.776344"]},{"value":["2018-08-24","16.203625"]},{"value":["2018-08-25","18.611240"]},{"value":["2018-08-26","16.215072"]},{"value":["2018-08-27","19.181209"]},{"value":["2018-08-28","19.990389"]},{"value":["2018-08-29","19.750829"]},{"value":["2018-08-30","20.442090"]},{"value":["2018-08-31","29.703891"]},{"value":["2018-09-01","21.430889"]},{"value":["2018-09-02","15.868265"]},{"value":["2018-09-03","16.668449"]},{"value":["2018-09-04","25.554309"]},{"value":["2018-09-05","35.135092"]},{"value":["2018-09-06","22.513739"]},{"value":["2018-09-07","31.316019"]},{"value":["2018-09-08","11.676889"]},{"value":["2018-09-09","20.056576"]},{"value":["2018-09-10","18.600920"]},{"value":["2018-09-11","19.091563"]},{"value":["2018-09-12","15.963846"]},{"value":["2018-09-13","18.571767"]},{"value":["2018-09-14","24.130673"]},{"value":["2018-09-15","23.914926"]},{"value":["2018-09-16","18.116699"]},{"value":["2018-09-17","10.181947"]},{"value":["2018-09-18"," 9.502769"]},{"value":["2018-09-19","26.006997"]},{"value":["2018-09-20","22.039159"]},{"value":["2018-09-21","17.767820"]},{"value":["2018-09-22","22.436046"]},{"value":["2018-09-23","24.906847"]},{"value":["2018-09-24","21.301238"]},{"value":["2018-09-25","20.170094"]},{"value":["2018-09-26","18.709728"]},{"value":["2018-09-27","26.450772"]},{"value":["2018-09-28","24.303798"]},{"value":["2018-09-29","10.969501"]},{"value":["2018-09-30","22.282596"]},{"value":["2018-10-01","22.254445"]},{"value":["2018-10-02","19.571119"]},{"value":["2018-10-03","22.144149"]},{"value":["2018-10-04","25.139436"]},{"value":["2018-10-05","20.109197"]},{"value":["2018-10-06","12.636962"]},{"value":["2018-10-07","19.020992"]},{"value":["2018-10-08","22.120111"]},{"value":["2018-10-09","28.302587"]},{"value":["2018-10-10","15.560371"]},{"value":["2018-10-11","20.513766"]},{"value":["2018-10-12","18.658777"]},{"value":["2018-10-13","19.663833"]},{"value":["2018-10-14","28.026729"]},{"value":["2018-10-15","15.606419"]},{"value":["2018-10-16","25.166249"]},{"value":["2018-10-17","27.827825"]},{"value":["2018-10-18","30.980996"]},{"value":["2018-10-19","30.509685"]},{"value":["2018-10-20","18.536118"]},{"value":["2018-10-21"," 8.315143"]},{"value":["2018-10-22","31.036577"]},{"value":["2018-10-23","24.082455"]},{"value":["2018-10-24","22.440278"]},{"value":["2018-10-25","20.095052"]},{"value":["2018-10-26","13.515308"]},{"value":["2018-10-27","14.114993"]},{"value":["2018-10-28","32.796562"]},{"value":["2018-10-29","12.498393"]},{"value":["2018-10-30","19.080792"]},{"value":["2018-10-31","18.879258"]},{"value":["2018-11-01","13.003704"]},{"value":["2018-11-02","20.503491"]},{"value":["2018-11-03","16.100614"]},{"value":["2018-11-04","21.690864"]},{"value":["2018-11-05","27.269248"]},{"value":["2018-11-06","21.446415"]},{"value":["2018-11-07","22.818249"]},{"value":["2018-11-08","22.508129"]},{"value":["2018-11-09","24.017623"]},{"value":["2018-11-10","18.407632"]},{"value":["2018-11-11","17.623010"]},{"value":["2018-11-12","16.374841"]},{"value":["2018-11-13","20.865136"]},{"value":["2018-11-14","24.428434"]},{"value":["2018-11-15","23.781148"]},{"value":["2018-11-16","14.763455"]},{"value":["2018-11-17","14.416271"]},{"value":["2018-11-18","15.456947"]},{"value":["2018-11-19","13.739745"]},{"value":["2018-11-20","24.211921"]},{"value":["2018-11-21","19.107200"]},{"value":["2018-11-22","23.683631"]},{"value":["2018-11-23","20.878654"]},{"value":["2018-11-24","22.725275"]},{"value":["2018-11-25","16.526280"]},{"value":["2018-11-26","24.468646"]},{"value":["2018-11-27","21.912254"]},{"value":["2018-11-28","11.385497"]},{"value":["2018-11-29","23.370763"]},{"value":["2018-11-30","22.512947"]},{"value":["2018-12-01","16.643459"]},{"value":["2018-12-02","28.606998"]},{"value":["2018-12-03","16.505799"]},{"value":["2018-12-04","28.706221"]},{"value":["2018-12-05","22.343861"]},{"value":["2018-12-06"," 7.190134"]},{"value":["2018-12-07","28.163843"]},{"value":["2018-12-08","23.910960"]},{"value":["2018-12-09","15.317776"]},{"value":["2018-12-10","21.513522"]},{"value":["2018-12-11","26.107771"]},{"value":["2018-12-12","19.313602"]},{"value":["2018-12-13","26.527561"]},{"value":["2018-12-14","22.580126"]},{"value":["2018-12-15","16.766285"]},{"value":["2018-12-16","18.798251"]},{"value":["2018-12-17","34.696919"]},{"value":["2018-12-18","16.627768"]},{"value":["2018-12-19","15.387942"]},{"value":["2018-12-20","16.395039"]},{"value":["2018-12-21","13.897606"]},{"value":["2018-12-22","15.873016"]},{"value":["2018-12-23","26.086961"]},{"value":["2018-12-24"," 8.482115"]},{"value":["2018-12-25","21.401757"]},{"value":["2018-12-26","16.380165"]},{"value":["2018-12-27","18.453617"]},{"value":["2018-12-28","21.003559"]},{"value":["2018-12-29","14.840805"]},{"value":["2018-12-30","21.636355"]},{"value":["2018-12-31","12.647399"]}],"name":null,"type":"heatmap","coordinateSystem":"calendar","calendarIndex":1}],"visualMap":[{"max":30,"calculable":true,"type":"continuous"}],"title":[{"text":"Calendar","subtext":"Heatmap"}],"tooltip":{"trigger":"item"},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="j.-pie-donut-chart" class="level2">
+<h2 class="anchored" data-anchor-id="j.-pie-donut-chart">2.J. Pie / Donut Chart</h2>
+<p>No.</p>
+</section>
+</section>
+<section id="theme-customizations" class="level1">
+<h1>3. Theme Customizations</h1>
+<section id="a.-set-common-theme" class="level2">
+<h2 class="anchored" data-anchor-id="a.-set-common-theme">3.A. Set Common Theme</h2>
+<p>Set theme for all charts on the page and set font.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">e_common</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="st">"my-theme"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">font_family =</span> <span class="st">"my-font"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="b.-tooltip-theme" class="level2">
+<h2 class="anchored" data-anchor-id="b.-tooltip-theme">3.B. Tooltip Theme</h2>
+<p>I always customize the tooltip to get rid of the ugly border and the white background.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">average_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_chart</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_bar</span>(average_mass) <span class="sc">|&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_legend</span>(<span class="at">show =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_axis_labels</span>(</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Island"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Averge Mass"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_title</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Some meaningful title."</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">trigger =</span> <span class="st">" axis"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">backgroundColor =</span> <span class="st">"rgba(40, 40, 40, 0.75)"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">borderColor =</span> <span class="st">"rgba(0, 0, 0, 0)"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">textStyle =</span> <span class="fu">list</span>(</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"#fcfcff"</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-b718fb6717fcfc01b833" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b718fb6717fcfc01b833">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true,"name":"Averge Mass"}],"xAxis":[{"data":["Biscoe","Dream","Torgersen"],"type":"category","boundaryGap":true,"name":"Island"}],"legend":{"data":["average_mass"],"show":false,"type":"plain"},"series":[{"data":[{"value":["Biscoe","4716.018"]},{"value":["Dream","3712.903"]},{"value":["Torgersen","3706.373"]}],"name":"average_mass","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"}],"title":[{"text":"Some meaningful title."}],"tooltip":{"trigger":" axis","backgroundColor":"rgba(40, 40, 40, 0.75)","borderColor":"rgba(0, 0, 0, 0)","textStyle":{"color":"#fcfcff"}},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+<section id="c.-remove-legend" class="level2">
+<h2 class="anchored" data-anchor-id="c.-remove-legend">3.C. Remove Legend</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">average_mass =</span> <span class="fu">mean</span>(body_mass_g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_chart</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_bar</span>(average_mass) <span class="sc">|&gt;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_legend</span>(<span class="at">show =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_axis_labels</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Island"</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Averge Mass"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_legend</span>(<span class="at">show =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> <span class="co"># THIS LINE OF CODE # </span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_title</span>(</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">"Some meaningful title."</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>(<span class="at">trigger =</span> <span class="st">" axis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-7d5e43f73f677686ea0e" style="width:100%;height:500px;" class="echarts4r html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7d5e43f73f677686ea0e">{"x":{"theme":"dark-mushroom","tl":false,"draw":true,"renderer":"canvas","events":[],"buttons":[],"opts":{"yAxis":[{"show":true,"name":"Averge Mass"}],"xAxis":[{"data":["Biscoe","Dream","Torgersen"],"type":"category","boundaryGap":true,"name":"Island"}],"legend":{"data":["average_mass"],"show":false,"type":"plain","show.1":false,"type.1":"plain"},"series":[{"data":[{"value":["Biscoe","4716.018"]},{"value":["Dream","3712.903"]},{"value":["Torgersen","3706.373"]}],"name":"average_mass","type":"bar","yAxisIndex":0,"xAxisIndex":0,"coordinateSystem":"cartesian2d"}],"title":[{"text":"Some meaningful title."}],"tooltip":{"trigger":" axis"},"textStyle":{"fontFamily":"Georgia"}},"dispose":true},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="tooltips" class="level1">
+<h1>4. Tooltips</h1>
+<section id="c.-default-tooltip-formatter" class="level2">
+<h2 class="anchored" data-anchor-id="c.-default-tooltip-formatter">3.C. Default Tooltip Formatter</h2>
+<p>One of the arguments in <code>e_tooltip</code> is <strong>formatter</strong>. There are three different types of default formats that make it easy to display tooltips nicer:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>my_echart <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">e_tooltip</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">formatter =</span> <span class="fu">e_tooltip_pointer_formatter</span>(<span class="at">style =</span> <span class="st">"percent"</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OR #</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">formatter =</span> <span class="fu">e_tooltip_pointer_formatter</span>(<span class="at">style =</span> <span class="st">"percent"</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># OR #</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">formatter =</span> <span class="fu">e_tooltip_pointer_formatter</span>(<span class="at">style =</span> <span class="st">"percent"</span>),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+</section>
+</section>
+<section id="maps" class="level1">
+<h1>5. Maps</h1>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var filterRegex = new RegExp(/https:\/\/nathanstates\.com/);
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+          // target, if specified
+          link.setAttribute("target", "_blank");
+      }
+    }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../license.html">License</a>
+  </li>  
+</ul>
+    </div>   
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/nathanstates_">
+      <i class="bi bi-twitter" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://mastodon.social/@nathanstates_">
+      <i class="bi bi-mastodon" role="img">
+</i> 
+    </a>
+  </li>  
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/Nathan-States">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+      </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../../contact.html">Contact</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

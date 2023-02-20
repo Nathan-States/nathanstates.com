@@ -1,0 +1,10 @@
+logo,firm,revenue,firm_sanctions,firm_fines,auditors_sanctions,auditors_fines,total_sanctions,total_fines
+_logos/deloitte.png,Deloitte,59300000000,3,3500000,5,110000,8,3610000
+_logos/pwc.png,PricewaterhouseCoopers,50300000000,1,1000000,5,110000,6,1110000
+_logos/ernst-and-young.png,Ernst & Young,45400000000,1,2000000,10,210000,11,2210000
+_logos/kpmg.png,KPMG,32300000000,0,0,3,100000,3,100000
+_logos/bdo.png,BDO,10300000000,0,0,2,0,2,0
+_logos/rsm.png,RSM,6300000000,1,15000,0,0,1,15000
+_logos/grant-thornton.png,Grant Thornton,5800000000,3,2290000,7,30000,10,2320000
+_logos/crowe.png,Crowe,4300000000,0,0,0,0,0,0
+,Everyone Else,,127,2284500,217,1605500,344,3890000

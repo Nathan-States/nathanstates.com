@@ -1,0 +1,14 @@
+{
+  "hash": "3698d484e78634366a453adc135b4f97",
+  "result": {
+    "markdown": "---\ntitle: \"🪖 SIPRI Dashboard\"\ndescription: \"View military expenditure around the world.\" \nauthor: \"Nathan States\"\nimage: thumbnail.jpg\nformat: \n  html: \n    toc: true\n    toc-location: right\n---\n\n::: {.cell}\n\n:::\n\n\n`<a href=\"https://nathan-states.shinyapps.io/sipri-dashboard/\" class=\"icon-link\" target=\"_blank\" rel=\"noopener\"><i class=\"fas fa-star\"></i> Launch</a>`{=html} \n`<a href=\"https://github.com/Nathan-States/SIPRI-Dashboard\" class=\"icon-link\" target=\"_blank\" rel=\"noopener\"><i class=\"fab fa-github\"></i> Source</a>`{=html} \n\n:::{.column-page-left}\n![](thumbnail.jpg)\n:::\n\n## SIPRI Dashboard \n\nThis web application allows users to view military spending across the world using several different metrics, including:\n\n* **Converted USD** \n* **Inflation-Adjusted USD** \n* **Military Spending in GDP Percentage** \n* **Military Spending in Government Percentage**\n* **Military Spending in Capita Spending** \n\nYou can view the dashboard by clicking [here](https://nathan-states.shinyapps.io/sipri-dashboard/). \n\n## Data Source \n\nThe data comes from the Stockholm International Peace Research Institute ([SIPRI](https://sipri.org/)), a think tank that researches conflict, armaments, arms control, and disarmament around the world. SIPRI was created by the [Swedish Parliament](https://sipri.org/about/history) in July 1966, who gives them an annual grant to fund their operations. They also receive funding from a variety of other governments and NGOs, including the EU, Australian Government, the University of Notre Dame, the Norwegian Ministry, [and many more](https://sipri.org/about/funding-2021). \n\nYou can download the database used for this project [here](https://milex.sipri.org/sipri).\n\n### Photo Credit \n\nPhoto by [Juli Kosolapova](https://unsplash.com/@yuli_superson). \n\n### Sidenote \n\nThis application is currently being hosted on [shinyapps.io](https://www.shinyapps.io/) on a free plan. Performance can sometimes be slow, and applications are limited to 25 active hours a month. It's possible to download the source code and launch the app locally to avoid those issues.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

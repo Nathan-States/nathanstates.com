@@ -1,0 +1,48 @@
+project:
+  type: website
+
+website:
+  title: "Nathan States"
+  site-url: "https://nathanstates.com"
+  repo-url: "https://github.com/Nathan-States/nathanstates.com"
+  page-footer: 
+    left: 
+      - text: "License"
+        href: license.qmd
+    center:
+      - icon: twitter
+        href: https://twitter.com/nathanstates_
+      - icon: mastodon
+        href: https://mastodon.social/@nathanstates_
+      - icon: github
+        href: https://github.com/Nathan-States  
+    right: 
+      - text: About
+        href: about.qmd
+      - text: Contact
+        href: contact.qmd
+  navbar:
+    title: "nathan<span class='icon-line'></span>states_"
+    right:
+      - text: Blog
+        href: index.qmd
+      - text: Projects
+        href: projects.qmd
+      - text: Archives
+        href: archives.qmd 
+      - text: Notes
+        href: notes.qmd
+format:
+  html:
+    css: assets/styles.css
+    theme: 
+      light: assets/states-light.scss
+      dark: assets/states-dark.scss
+    highlight-style:
+      light: assets/syntax-light.theme
+      dark: assets/syntax-dark.theme
+    smooth-scroll: true
+    code-block-border-left: true
+    link-external-newwindow: true
+
+editor: source

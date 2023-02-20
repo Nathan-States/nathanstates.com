@@ -1,0 +1,18 @@
+---
+execute: 
+  echo: false
+---
+
+# 👋 Hey there, I'm Nathan.
+
+I'm a data scientist who is passionate about statistics, government, and socioeconomic issues, focusing primarily on the United States. This blog hosts all my work I've done related to those topics. While this site is geared towards other data people, it's also meant to be accessible to anyone who also shares my passions. No matter your background, I hope you find some use out of this site. 
+
+Check out my [recent posts](index.qmd), new [projects](projects.qmd), and updates to the [archives](archives.qmd). I also have a [notes](notes.qmd) tab that has info on various data tools I use in real life. 
+
+## 🤝 Let's work together.
+
+If you're interested in collaborating together, or have other business inquiries, head over to my [contact page](contact.qmd) and hit me up.
+
+## 🧾 Resume Rundown.
+
+Get a PDF of my resume [here](assets/nathan_resume.pdf). 
