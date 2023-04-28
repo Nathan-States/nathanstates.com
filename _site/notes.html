@@ -204,7 +204,17 @@ I’m currently in the process of moving my notes for various data tools from <e
 </tr>
 </thead>
 <tbody class="list">
-<tr data-index="0" data-listing-date-sort="1673326800000" data-listing-file-modified-sort="1675862724807" data-listing-reading-time-sort="4.11" data-listing-title-sort="echarts4r Cookbook" data-listing-filename-sort="index.qmd">
+<tr data-index="0" data-listing-file-modified-sort="1677119661847" data-listing-reading-time-sort="2.33" data-listing-title-sort="SVG" data-listing-filename-sort="index.qmd">
+<td class="listing-date">
+</td>
+<td class="listing-title">
+<a href="./notes/svg/index.html" class="title">SVG</a>
+</td>
+<td class="listing-author">
+Nathan States
+</td>
+</tr>
+<tr data-index="1" data-listing-date-sort="1673326800000" data-listing-file-modified-sort="1675862724807" data-listing-reading-time-sort="4.11" data-listing-title-sort="echarts4r Cookbook" data-listing-filename-sort="index.qmd">
 <td class="listing-date">
 Jan 10, 2023
 </td>
@@ -468,20 +478,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp(/https:\/\/nathanstates\.com/);
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 </div> <!-- /content -->

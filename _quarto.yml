@@ -43,6 +43,6 @@ format:
       dark: assets/syntax-dark.theme
     smooth-scroll: true
     code-block-border-left: true
-    link-external-newwindow: true
+    link-external-newwindow: false
 
 editor: source

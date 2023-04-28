@@ -2,12 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.269">
+<meta name="generator" content="quarto-1.2.335">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Nathan States">
 <meta name="dcterms.date" content="2023-02-18">
+<meta name="description" content="Some pretense on the Department of Defense never passing an audit.">
 
 <title>Nathan States - Explaining the CFO Act of 1990</title>
 <style>
@@ -114,7 +115,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Explaining the CFO Act of 1990</h1>
-                      </div>
+                  <div>
+        <div class="description">
+          Some pretense on the Department of Defense never passing an audit.
+        </div>
+      </div>
+                </div>
   </div>
     
   
@@ -148,12 +154,21 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>There’s a good chance that if you’ve heard of this Act already, you read it in relation to the Department of Defense being unable to “pass” an audit. I want to give a more detailed breakdown about the Pentagon’s financial struggles, but it makes more sense to break them down into different sections.</p>
+<p>There’s a good chance that if you’ve heard of this Act before reading this post, you read it in relation to the Department of Defense being unable to “pass” an audit. I want to give a more detailed breakdown about the Pentagon’s financial struggles, but in order to do that, I need to describe this Act in detail.</p>
 <section id="cfo-act-of-1990" class="level2">
 <h2 class="anchored" data-anchor-id="cfo-act-of-1990">CFO Act of 1990</h2>
-<p>The Government Accountability Office (GAO) has a really good <a href="https://www.gao.gov/products/gao-20-566">report</a> that I recommend reading if you want a more in-depth explanation. The only problem is that it’s 140 pages long, so here’s a paraphrased version of it.</p>
-<p>And if you want to look at a table with pretty colors, skip <a href="here">here</a>.</p>
-<p>-blah-</p>
+<p>The Government Accountability Office (GAO) has a really good <a href="https://www.gao.gov/products/gao-20-566">report</a> that I recommend reading if you want a comprehensive. The only problem is that it’s 140 pages long, so here’s a paraphrased version of it.</p>
+<p>Financial management in government has changed dramatically since the end of WW2, though this Act is considered the most important by the GAO. Prior to 1990, government auditors <em>did</em> exist, and they routinely found waste, fraud, or other financial misconduct. The report notes some of the major incidents.</p>
+<blockquote class="blockquote">
+<p>[…] In 1988, we reported on numerous internal control problems across agencies, such as the Department of Defense (DOD) being unable to account for hundreds of millions of dollars in advances that foreign customers paid for equipment, over $50 million in undetected fraudulent insurance claims paid by the Federal Crop Insurance Corporation, millions of dollars in interest penalties because agencies paid 25 percent of their bills late, and over $350 million in lost interest because agencies paid their bills too soon.</p>
+<p><strong>Pg. 3</strong></p>
+</blockquote>
+<p>During the 1980s, there was significant media buzz surrounding the DoD’s spending habits, led by a news story discussing the purchase of a $600 hammer. As <a href="https://www.govexec.com/federal-news/1998/12/the-myth-of-the-600-hammer/5271/">gov.exec</a> explains, they didn’t actually spend $600 - the DoD’s financial management is so shit that it was actually an error duplicated across multiple accounting ledgers - but the story would generate substantial buzz. A report by Chuck Spinney titled “Defense Facts and Life” would offer more proof (here’s an <a href="https://www.grassley.senate.gov/news/commentary/grassley-spinney-op-ed-don-t-let-pentagon-dip-its-bag-old-tricks">interesting story</a> on the incident) of government waste, which, combined with the Savings and Loan crisis of the 1980s, would eventually lead to the passing of the CFO Act of 1990.</p>
+<p>Even though this Act is usually brought up in the context of audits, it doesn’t require departments submit them annually. What this Act did was provide a framework for financial management by increasing the authority of the OMB to direct financial management within government. Two new positions were created by this Act; the Deputy Director of Management, essentially the CFO of the government, and the Office of Federal Financial Management, who carry out government-wide initiatives. In addition, each of the 24 major departments were assigned their own CFO, and all 24 CFOs meet up to put forth 5 year progression plans.</p>
+<p>A whole bunch of Acts associated with these plans were passed as a result; the report has a good figure showing some of them.</p>
+<p>-screenshot-</p>
+<p>The most important Acts are the GMRA Act of 1994, which requires annual audits from each of the 24 departments, and the FFMIA Act of 1996, which standardized certain financial management systems. The GAO tracked the latter of those in term of department compliance in the report.</p>
+<p>-screenshot-</p>
 </section>
 <section id="results" class="level2">
 <h2 class="anchored" data-anchor-id="results">Results</h2>
@@ -424,20 +439,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       });
     }
   }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var filterRegex = new RegExp(/https:\/\/nathanstates\.com/);
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
-    var links = window.document.querySelectorAll('a:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-          // target, if specified
-          link.setAttribute("target", "_blank");
-      }
-    }
 });
 </script>
 </div> <!-- /content -->

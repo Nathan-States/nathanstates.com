@@ -1,0 +1,41 @@
+---
+title: "SVG"
+description: "Notes related to SVG"
+author: "Nathan States"
+---
+
+## 0. References 
+
+-   **D3 For The Impatient** by *Philipp Janert*.
+
+## 1. Overview
+
+SVG stands for **Scalabe Vector Graphics**, and is a vector image format for creating graphics. SVG uses XML-based text files that produces not flat images, but DOM trees.
+
+SVG is almost never used alone; it's usually used in HTML in combination with D3 to make interactive charts.
+
+## 2. Shapes
+
+There are four primary shape types in SVG.
+
+| Tag       | Attributes    | Description                           |
+|-----------|---------------|---------------------------------------|
+| <rect>    | x, y          | Coordinates of Upper-Left Corner      |
+|           | width, height | Width and Height                      |
+|           | rx, ry        | Horizontal and Vertical Corner Radius |
+| <circle>  | cx, cy        | Center Coordinates                    |
+|           | r             | Radius                                |
+| <ellipse> | cx, cy        | Center Coordinates                    |
+|           | rx, ry        | Horizontal and Vertical Radius        |
+| <line>    | x1, y1        | Starting Point Coordinates            |
+|           | x2, y2        | Ending Point Coordinates              |
+
+## 3. Path
+
+The <path> element is capable of drawing shapes, and it has one specific attribute; `d`. The value of `d` consists of a string consisting of numbers such as; 
+
+```{ojs}
+<path d="M40 50 L70 60 L70 40 Z" />
+```
+
+

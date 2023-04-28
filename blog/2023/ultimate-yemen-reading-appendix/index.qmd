@@ -28,11 +28,11 @@ knitr::include_graphics("_covers/yemen-in-crisis.jpg")
 ```
 </div>
 
-Helen Lackner has been a political writer for more than 40 years, has lived in Yemen for 15+ years, has written reports for the United Nations, and currently sits on the EU Council on Foreign Affairs. She has written 9 books in total, the majority of them on Yemen. She is, in my opinion, the absolute best resource for information on Yemen, and *Yemen in Crisis* is her best work in terms of understanding the current conflict. 
+Helen Lackner has been a political writer for more than 40 years, previously lived in Yemen for 15+ years, has written reports for the United Nations, and currently sits on the EU Council on Foreign Affairs. She has written a total of nine books, the majority of them on Yemen. She is, in my opinion, the most reliable resource for learning about this conflict, and *Yemen in Crisis* is her best work on the topic. 
 
-The book starts by dissecting the 2011 'Arab Spring' protests that ultimately led to the overthrow of former late president Ali Abdulleh Saleh, explaining the Gulf Cooperation Council's failure to peacefully transition power, the rise of the Houthi/Saleh alliance, and the subsequent humanitarian disaster brought on by the Saudi-led coalition invasion in March 2015. Each chapter describes a different aspect of the conflict, such as the water crisis, the role of tribes, or the Southern separatist movement. The book is dense in information; I often found myself re-reading sections just to make sure I understood everything correctly. As a whole, though, the chapters are brief enough to where they don't feel too overwhelming while still being very detailed. 
+The book starts by dissecting the 2011 'Arab Spring' protests that ultimately led to the overthrow of former late president Ali Abdullah Saleh, explaining the Gulf Cooperation Council's failure to peacefully transition power, the rise of the Houthi/Saleh alliance, and the subsequent humanitarian disaster brought on by the Saudi-led coalition invasion in March 2015. Each chapter describes a different aspect of the conflict, such as the water crisis, the role of tribes in the country, and the Southern separatist movement. The book is loaded with information; I often found myself re-reading sections just to make sure I understood everything correctly. As a whole, though, the chapters are brief enough to where they don't feel too overwhelming while still feeling very comprehensive. 
 
-Besides that, the book is written well, there's some personal anecdotes throw in there, and it's overall extremely informative. If you read this book, you'll know more than 99% of people in the United States about this conflict, so it gets my highest recommendation. 
+The book is very well written, there's some personal anecdotes included, and it's a fairly quick read at under at 352 pages. It gets my recommendation as the overall best book for understanding the war. 
 
 ## Yemen Endures 
 
@@ -66,7 +66,15 @@ knitr::include_graphics("_covers/destroying-yemen.jpg")
 ```
 </div>
 
-Isa Blumi is an
+Isa Blumi is an associate professor at Stockholm University in Sweden, and has written multiple books about the Middle East. *Destroying Yemen* analyzes the conflict historically, and specifically from the role of the United States, which he continually refers to as *empire* in the book. 
+
+Let's start with the good; no other book analyzes the war primarily from the POV of Western powers, which offers a fresh perspective on the conflict. There's a good amount of information on the role of nation-building during the formative years of North Yemen. The role of economic policies, primarily led by the IMF, is actually explained, which most books do not. And the appendix is very detailed, with lots of unique sources that I don't see mentioned in other books. 
+
+With all that said, I find this book to be bad in many respects. Blumi's writing style is an absolute chore to read. It's repetitive, overly wordy, unnecessarily academic, and extremely pretentious. There are numerous sections devoted solely to ridiculing liberals, the mainstream media, "modernists," etc., mostly criticizing their lack of attention/knowledge towards Yemen. But other topics, like US-Saudi relations, GCC support for Saleh, the rise of the Houthi/Saleh alliance, are barely even given mention. 
+
+Instead of focusing on those facts, he instead chooses to elaborate on some conspiracy. This isn't that surprising, considering his Twitter page is full of COVID-19 denialism, but some of it is just odd. There first third of the book seemingly paints the picture that the Imam of North Yemen was . Specifically, Blumi seems to think the destruction of Yemen i
+
+I'm sure the author is a nice enough person, but this was a painful read. You're better off focusing on other books. 
 
 ## A Tribal Order
 
@@ -134,11 +142,11 @@ knitr::include_graphics("_covers/dont-be-afraid-of-the-bullets.jpg")
 ```
 </div>
 
-Helen Lackner is a French political writer for more than 40 years, had previously lived in Yemen for 15 years, has written reports for the United Nations, and now sits on the EU Council on Foreign Affairs. She has written 9 books in total, most of them on Yemen, with the first written in 1978. She is - in my opinion - the absolute best resource for information on Yemen, and *Yemen in Crisis* is her best work. 
+Laura Kasinof is an independent journalist who was a correspondent in Yemen during the 2011 Sann'a protests. The title of the book is a reference to the deadly sniper shootings that occurred during that time, which claimed the lives of 46 Yemeni protesters, and the first chapter is a detailed first-hand recounting of that event. 
 
-This book currently has five different editions, with the most recent titled *Road to War*. If you want to know what exactly led to the 2015 Saudi-intervention, read this book. Every page is stuffed with information, and each chapter tackles a different aspect of the conflict. This book currently has five different editions, with the most recent titled *Road to War*. If you want to know what exactly led to the 2015 Saudi-intervention, read this book. Every page is stuffed with information, and each chapter tackles a different aspect of the conflict. This book currently has five different editions, with the most recent titled *Road to War*. If you want to know what exactly led to the 2015 Saudi-intervention, read this book. Every page is stuffed with information, and each chapter tackles a different aspect of the conflict. This book currently has five different editions, with the most recent titled *Road to War*. If you want to know what exactly led to the 2015 Saudi-intervention, read this book. Every page is stuffed with information, and each chapter tackles a different aspect of the conflict. 
+The rest of the book is more like a diary than anything. She talks about first moving to Yemen, her experiences living in New York City, a time where she was an actress for some Yemeni TV show, etc. Some of the passages seem like they'd fit better in a coming-to-age novel, where the author discussed ad nauseam about wanting to be seen as a strong, independent woman with a purpose in this world. I don't think that's necessarily a bad thing, but it's definitely not what I'm interested in, so I ended up skipping large portions of the book. 
 
-This book currently has five different editions, with the most recent titled *Road to War*. If you want to know what exactly led to the 2015 Saudi-intervention, read this book. Every page is stuffed with information, and each chapter tackles a different aspect of the conflict. 
+There's also more than a few spelling and grammar errors in the book 
 
 ## The Huthi Movement in Yemen 
 

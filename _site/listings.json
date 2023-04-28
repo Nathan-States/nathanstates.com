@@ -2,9 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
-      "/blog/2023/cfo-act-of-1990/index.html",
+      "/blog/2023/what-the-inside-of-a-flooded-house-looks-like/index.html",
       "/blog/2023/covid-19-stimulus-database-part-1/index.html",
-      "/blog/2023/pcaob-part-2-enforcement/index.html",
       "/blog/2023/pcaob-part-1-inspections/index.html",
       "/blog/2023/bengaluru-text-mining/index.html",
       "/blog/2023/sipri-dashboard-announcement/index.html",
@@ -20,6 +19,7 @@
   {
     "listing": "/notes.html",
     "items": [
+      "/notes/svg/index.html",
       "/notes/echarts4r/index.html"
     ]
   },

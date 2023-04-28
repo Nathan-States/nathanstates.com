@@ -1,19 +1,36 @@
 ---
 title: "Explaining the CFO Act of 1990"
-description: ""
+description: "Some pretense on the Department of Defense never passing an audit."
 author: "Nathan States"
 date: "02/18/2023"
+draft: true
 ---
 
-There's a good chance that if you've heard of this Act already, you read it in relation to the Department of Defense being unable to "pass" an audit. I want to give a more detailed breakdown about the Pentagon's financial struggles, but it makes more sense to break them down into different sections. 
+There's a good chance that if you've heard of this Act before reading this post, you read it in relation to the Department of Defense being unable to "pass" an audit. I want to give a more detailed breakdown about the Pentagon's financial struggles, but in order to do that, I need to describe this Act in detail. 
 
 ## CFO Act of 1990 
 
-The Government Accountability Office (GAO) has a really good [report](https://www.gao.gov/products/gao-20-566) that I recommend reading if you want a more in-depth explanation. The only problem is that it's 140 pages long, so here's a paraphrased version of it. 
+The Government Accountability Office (GAO) has a really good [report](https://www.gao.gov/products/gao-20-566) that I recommend reading if you want a comprehensive. The only problem is that it's 140 pages long, so here's a paraphrased version of it. 
 
-And if you want to look at a table with pretty colors, skip [here](here). 
+Financial management in government has changed dramatically since the end of WW2, though this Act is considered the most important by the GAO. Prior to 1990, government auditors *did* exist, and they routinely found waste, fraud, or other financial misconduct. The report notes some of the major incidents. 
 
--blah-
+> [...] In 1988, we reported on numerous internal control problems across agencies, such as the Department of Defense (DOD) being unable to account for hundreds of millions of dollars in advances that foreign customers paid for equipment, over $50 million in undetected fraudulent insurance claims paid by the Federal Crop Insurance Corporation, millions of dollars in interest penalties because agencies paid 25 percent of their bills late, and over $350 million in lost interest because agencies paid their bills too soon.
+> 
+> **Pg. 3**
+
+During the 1980s, there was significant media buzz surrounding the DoD's spending habits, led by a news story discussing the purchase of a \$600 hammer. As [gov.exec](https://www.govexec.com/federal-news/1998/12/the-myth-of-the-600-hammer/5271/) explains, they didn't actually spend \$600 - the DoD's financial management is so shit that it was actually an error duplicated across multiple accounting ledgers - but the story would generate substantial buzz. A report by Chuck Spinney titled "Defense Facts and Life" would offer more proof (here's an [interesting story](https://www.grassley.senate.gov/news/commentary/grassley-spinney-op-ed-don-t-let-pentagon-dip-its-bag-old-tricks) on the incident) of government waste, which, combined with the Savings and Loan crisis of the 1980s, would eventually lead to the passing of the CFO Act of 1990. 
+
+Even though this Act is usually brought up in the context of audits, it doesn't require departments submit them annually. What this Act did was provide a framework for financial management by increasing the authority of the OMB to direct financial management within government. Two new positions were created by this Act; the Deputy Director of Management, essentially the CFO of the government, and the Office of Federal Financial Management, who carry out government-wide initiatives. In addition, each of the 24 major departments were assigned their own CFO, and all 24 CFOs meet up to put forth 5 year progression plans. 
+
+A whole bunch of Acts associated with these plans were passed as a result; the report has a good figure showing some of them.  
+
+-screenshot-
+
+The most important Acts are the GMRA Act of 1994, which requires annual audits from each of the 24 departments, and the FFMIA Act of 1996, which standardized certain financial management systems. The GAO tracked the latter of those in term of department compliance in the report.  
+
+-screenshot-
+
+
 
 ## Results 
 
